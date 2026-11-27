@@ -4,8 +4,14 @@ import { brand } from '@/lib/content';
 import { seo } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  // {{DOMAIN}} is a placeholder: until it's a real domain, fall back to localhost so the build works
-  metadataBase: new URL(brand.domain.startsWith('{{') ? 'http://localhost:3000' : brand.url),
+  // {{DOMAIN}} is a placeholder: until it's set, use the Vercel production URL (or localhost locally)
+  metadataBase: new URL(
+    !brand.domain.startsWith('{{')
+      ? brand.url
+      : process.env.VERCEL_PROJECT_PRODUCTION_URL
+        ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+        : 'http://localhost:3000',
+  ),
   title: seo.title,
   description: seo.description,
   applicationName: brand.name,
