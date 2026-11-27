@@ -269,7 +269,9 @@ function HeroLayer({ code }: { code?: boolean }) {
         </p>
         <p className="hx__status" data-spec="status · dot pulses every 2s">
           <i className="hx__dot" aria-hidden="true" />
-          {hero.status} <span className="hx__sub">{hero.statusSub}</span>
+          <a href={hero.statusHref} data-cursor="start">
+            {hero.status} <span className="hx__sub">{hero.statusSub}</span>
+          </a>
           {code && <Spec t="status · dot pulses every 2s" below />}
         </p>
         <p className="hx__clock" data-spec="time · Asia/Kolkata">
@@ -323,21 +325,20 @@ function HeroLayer({ code }: { code?: boolean }) {
             {code && <Spec t="p · Geist 500 · 40/1.02 · -0.045em" />}
           </p>
           <div className="hx__ctas" data-spec="flex · gap 10px">
-            <a className="hx__btn hx__btn--ink" href="#pricing" data-cursor="enroll">
-              <span>{cta.primary.replace(/\/mo$/, '')}</span>
+            <a className="hx__btn hx__btn--ink" href={cta.diagnosticHref} target="_blank" rel="noopener" data-cursor="free">
+              <span>{hero.ctaPrimary}</span>
               <small>{hero.ctaSmall}</small>
               <ArrowIcon />
             </a>
-            <a className="hx__btn" href={cta.diagnosticHref} target="_blank" rel="noopener" data-cursor="free">
-              <span>free diagnostic test</span>
+            <a className="hx__btn" href={hero.ctaScholarshipHref} target="_blank" rel="noopener" data-cursor="register">
+              <span>{hero.ctaScholarship}</span>
               <TestIcon />
             </a>
             <p className="hx__call">
-              {hero.callPre}{' '}
-              <a href={person.phoneHref} data-cursor="call">
-                {person.phone}
+              <a href={hero.ctaSecondaryHref} data-cursor="₹1 trial">
+                {hero.ctaSecondary}
               </a>
-              <span>{hero.callPost}</span>
+              <span> · {hero.ctaNote}</span>
             </p>
             {code && <Spec t="flex · gap 10px · h 80" below />}
           </div>

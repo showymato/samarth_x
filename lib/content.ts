@@ -38,17 +38,24 @@ const P = {
   monthly: 3999,
   quarterly: 10799,
   annual: 38399,
+  // starter offers: the funnel between "free" and the core plan
+  starter: {
+    trial: 1,
+    mockReview: 99,
+    blueprint: 499,
+    companion: 999,
+  },
   addons: {
     mentorSession: 799,
     mentorPack5: 3499,
     doubtPass: 699,
     doubtBundle: 1799,
+    backlog: 2499,
+    dropper: 1999,
+    awayFromHome: 699,
     olympiadTrack: 1499,
-    mockMarathon: 2999,
-    printedKit: 4999,
     counselling: 2999,
-    parentPro: 499,
-    calmMind: 499,
+    printedKit: 4999,
   },
 };
 
@@ -65,18 +72,58 @@ export const pricing = {
   gstNote: 'prices incl. GST {{CONFIRM_GST}}',
 };
 
+// ─────────────────────────────────────────────────────────────
+// LEAD CAPTURE: every CTA on the page goes through one of these two.
+// The `offer` param / prefilled message tells the owner which CTA a lead came from.
+// ─────────────────────────────────────────────────────────────
+export const LEAD_URL = '{{FORM_URL}}'; // Tally / Google Form / own backend
+export const lead = (offer: string, extra: Record<string, string> = {}) =>
+  `${LEAD_URL}?${new URLSearchParams({ offer, ...extra }).toString()}`;
+export const WHATSAPP_URL = (message: string) => `${brand.whatsappHref}?text=${encodeURIComponent(message)}`;
+
+export const funnel = {
+  scholarshipDate: '{{SCHOLARSHIP_DATE}}',
+  // discount on the quarterly / annual core plan. {{CONFIRM_SCHOLARSHIP_TIERS}}
+  scholarshipTiers: [
+    { score: '90%+', off: 50 },
+    { score: '75–89%', off: 30 },
+    { score: '60–74%', off: 15 },
+    { score: 'everyone who appears', off: 5 },
+  ],
+  referral: {
+    buddy: 'study buddy: 2 friends join, both get 1 month 50% off',
+    squad: 'squad of 3+: 15% off each + shared leaderboard',
+    // short forms for chips (chips never wrap)
+    buddyChip: 'study buddy: both get 50% off a month',
+    squadChip: 'squad of 3+: 15% off each',
+  },
+  trialTerms: '₹1 trial: no auto-debit. you choose a plan after 7 days.', // {{CONFIRM_TRIAL_TERMS}}
+  // seasonal "last 60 days" sprint: off. Nothing renders while enabled is false.
+  sprint: { enabled: false },
+};
+
+// Rank & College Predictor (desk terminal). Never invent numbers: see data/predictor/README.md
+export const predictor = {
+  jeeTotalCandidates: '{{JEE_MAIN_TOTAL_CANDIDATES}}', // official NTA count for the year, as a number
+  year: '{{YEAR}}',
+  whatsappMessage: 'Predict my college: exam __, score __, category __, state __',
+};
+
 export const cta = {
   primary: `start for ${inr(P.monthly)}/mo`,
   diagnostic: 'take the free diagnostic test',
   parentCall: 'book a 15-min parent call',
-  // the diagnostic test is booked over WhatsApp until a form exists
-  diagnosticHref: `${brand.whatsappHref}?text=free%20diagnostic%20test`,
+  diagnosticHref: lead('diagnostic'),
 };
 
 export const hero = {
   file: { dir: `${brand.name} /`, name: 'timetable_final_FINAL_v', ext: '.pdf', repo: 'rank' },
-  status: 'admissions open',
-  statusSub: 'JEE 2028 · NEET 2028 · Olympiad',
+  status: 'scholarship test',
+  statusSub: `up to 50% off · ${'{{SCHOLARSHIP_DATE}}'}`,
+  statusHref: '#start',
+  ctaSecondary: `or the full plan at ${inr(P.starter.trial)} for 7 days`,
+  ctaSecondaryHref: '#pricing',
+  ctaNote: '15-min mentor call included · parents welcome',
   bubble: 'turning “kal se pakka” into “aaj se hi.”',
   // the hero chat bubble cycles through these
   bubbles: [
@@ -89,9 +136,10 @@ export const hero = {
   roleLine1: 'one app, one mentor,',
   roleLine2Pre: 'one rank to',
   roleLine2Em: 'chase',
-  ctaSmall: '/mo',
-  callPre: 'or call',
-  callPost: ' · a real mentor picks up',
+  ctaPrimary: 'take the free diagnostic test',
+  ctaSmall: '₹0',
+  ctaScholarship: 'scholarship test',
+  ctaScholarshipHref: lead('scholarship', { from: 'hero' }),
   lede: {
     pre: 'we combine ',
     bold: ['personal mentorship', 'complete study material', 'tests with real analytics', 'a parent dashboard'],
@@ -212,6 +260,52 @@ export const receiptsCopy = {
 
 type Link = { label: string; href?: string; main?: boolean };
 
+// "start here. it's free." (#start): the top of the funnel
+export const start = {
+  eyebrow: 'start here · free',
+  title: 'start here.',
+  titleSerif: 'it’s free.',
+  lede: 'no payment, no 40-minute sales call. just answers. for parents: you’re welcome on every call.',
+  cards: [
+    {
+      id: 'start-diagnostic',
+      accent: '#ff6b1a',
+      big: { pre: '₹', n: '0', suf: ' · 90 min' },
+      role: 'Free Diagnostic Test',
+      title: 'Free Diagnostic Test',
+      blurb: '90 minutes. a chapter-wise weakness map. a 15-min call where a mentor explains it. parents welcome.',
+      tags: ['JEE', 'NEET', 'Olympiad'],
+      links: [{ label: 'take the test', href: lead('diagnostic', { from: 'start' }), main: true }],
+    },
+    {
+      id: 'start-scholarship',
+      accent: '#8b5cf6',
+      big: { pre: 'up to ', n: '50', suf: '% off' },
+      role: `Scholarship Test · next: ${'{{SCHOLARSHIP_DATE}}'}`,
+      title: 'Scholarship Test',
+      blurb: 'score well, pay less. up to 50% off the quarterly or annual core plan. online and free.',
+      tags: funnel.scholarshipTiers.map((t) => `${t.score} → ${t.off}%`),
+      links: [{ label: 'register', href: lead('scholarship', { from: 'start' }), main: true }],
+    },
+    {
+      id: 'start-predictor',
+      accent: '#12a150',
+      big: { pre: '%ile ', n: '→', suf: ' rank' },
+      role: 'Rank & College Predictor',
+      title: 'Rank & College Predictor',
+      blurb: 'JEE percentile → your likely rank and colleges. NEET marks → your likely government colleges. an estimate from official data, not a guarantee.',
+      tags: ['JEE Main', 'NEET-UG', 'estimate'],
+      links: [
+        { label: 'try it in the terminal ↓', href: '#about', main: true },
+        {
+          label: 'get the full list on WhatsApp',
+          href: WHATSAPP_URL('Predict my college: exam __, score __, category __, state __'),
+        },
+      ],
+    },
+  ],
+};
+
 export type StackCard = {
   id: string;
   accent: string;
@@ -249,7 +343,7 @@ export const work = {
       tags: ['Personal mentor', '1:1 sessions', 'Weekly plan', 'Strategy calls'],
       links: [
         { label: 'see the plan', href: '#pricing', main: true },
-        { label: 'free diagnostic test', href: cta.diagnosticHref },
+        { label: 'free diagnostic test', href: lead('diagnostic', { from: 'mentor' }) },
       ],
     },
     {
@@ -263,7 +357,7 @@ export const work = {
       tags: ['Chapter tests', 'Full mocks', 'All-India test series', 'Error analysis'],
       links: [
         { label: 'see the plan', href: '#pricing', main: true },
-        { label: 'take a free test first', href: cta.diagnosticHref },
+        { label: `${inr(P.starter.mockReview)} mock + mentor review`, href: lead('mock99', { from: 'tests' }) },
       ],
     },
     {
@@ -278,6 +372,8 @@ export const work = {
       tags: ['Parent app', 'Monthly report', 'Alerts', 'PTM calls'],
       links: [
         { label: 'see the plan', href: '#pricing', main: true },
+        // {{CONFIRM}}: the PDF is a clearly-labelled SAMPLE with fictional data
+        { label: 'see a sample parent report (PDF)', href: '/sample-parent-report.pdf' },
         { label: cta.parentCall, href: brand.phoneHref },
       ],
     },
@@ -297,7 +393,7 @@ export const work = {
         tags: ['Physics', 'Chemistry', 'Maths', 'BITSAT'],
         links: [
           { label: 'see plan', href: '#pricing' },
-          { label: 'free diagnostic test', href: cta.diagnosticHref },
+          { label: 'free diagnostic', href: lead('diagnostic', { exam: 'jee' }) },
         ],
       },
       {
@@ -307,25 +403,25 @@ export const work = {
         role: 'NEET-UG · class 11 · 12 · droppers',
         title: 'NEET: Physics, Chemistry, Biology',
         blurb:
-          'NCERT line by line, because NEET reads it that way. Diagram drills, assertion-reason practice and full-length mocks with OMR timing.',
+          'NCERT line-by-line + daily biology flashcards, because NEET reads it that way. Diagram drills, assertion-reason practice and full-length mocks with OMR timing.',
         tags: ['Biology', 'Chemistry', 'Physics', 'NCERT-mapped'],
         links: [
           { label: 'see plan', href: '#pricing' },
-          { label: 'free diagnostic test', href: cta.diagnosticHref },
+          { label: 'free diagnostic', href: lead('diagnostic', { exam: 'neet' }) },
         ],
       },
       {
         id: 'p-olympiad',
         accent: '#ff3b30',
         mock: 'flight' as const,
-        role: 'Olympiad · class 8–12',
-        title: 'Olympiad: for when JEE is the warm-up',
+        role: 'Olympiad & Foundation · class 8–12',
+        title: 'Olympiad & Foundation · Class 8–12',
         blurb:
-          'IOQM/INMO, NSEP/INPhO, NSEC/INChO, NSEB/INBO and NSEJS. Stage-wise roadmaps, proof-writing practice and a mentor who has sat the paper.',
-        tags: ['IOQM · INMO', 'NSEP · INPhO', 'NSEC · INChO', 'NSEB · NSEJS'],
+          'Start in Class 8, arrive at JEE/NEET years ahead. NSEJS, IOQM, NSEP, NSEC, NSEB + weekend problem camps, stage-wise roadmaps and proof-writing practice.',
+        tags: ['NSEJS', 'IOQM · INMO', 'NSEP · NSEC', 'NSEB'],
         links: [
           { label: 'see plan', href: '#pricing' },
-          { label: 'free diagnostic test', href: cta.diagnosticHref },
+          { label: 'free diagnostic', href: lead('diagnostic', { exam: 'olympiad' }) },
         ],
       },
     ],
@@ -336,43 +432,51 @@ export const work = {
     rows: [
       {
         n: 'Extra 1:1s',
-        w: 'extra 60-minute mentor sessions, any subject or strategy',
+        w: 'Extra 1:1 Mentor Sessions: 60 minutes, any subject or strategy',
         s: `${inr(P.addons.mentorSession)}/session · 5 for ${inr(P.addons.mentorPack5)}`,
+        href: lead('addon-extra-1on1'),
       },
       {
         n: 'Doubt Pass',
-        w: 'PCMB live doubt rooms with subject experts and a priority queue',
-        s: `${inr(P.addons.doubtPass)}/subject/mo · 3 for ${inr(P.addons.doubtBundle)}`,
+        w: 'PCMB Live Doubt Pass: live doubt rooms, subject experts, priority queue',
+        s: `${inr(P.addons.doubtPass)}/subject/mo · science bundle ${inr(P.addons.doubtBundle)}/mo`,
+        href: lead('addon-doubt-pass'),
+      },
+      {
+        n: 'Backlog Khatam',
+        w: 'Backlog Khatam Bootcamp, 30 days: class 11 backlog, cleared before class 12 eats you',
+        s: `${inr(P.addons.backlog)} · 30 days`,
+        href: lead('addon-backlog'),
+      },
+      {
+        n: 'Dropper Reset',
+        w: 'plan rebuild + a counsellor session. one bad year is data, not destiny',
+        s: `${inr(P.addons.dropper)} first month`,
+        href: lead('addon-dropper'),
+      },
+      {
+        n: 'Away From Home',
+        w: 'for hostel/PG students: daily check-ins, wellbeing calls, instant parent alerts',
+        s: `${inr(P.addons.awayFromHome)}/mo`,
+        href: lead('addon-away-from-home'),
       },
       {
         n: 'Olympiad Pro',
-        w: 'proof-writing, INMO/INPhO-level problem sets and an olympiad mentor',
+        w: 'Olympiad Advanced Track: proof-writing, INMO/INPhO-level sets, an olympiad mentor',
         s: `${inr(P.addons.olympiadTrack)}/mo`,
-      },
-      {
-        n: 'Mocks × 15',
-        w: '15 full-length, exam-pattern mocks with a national percentile',
-        s: `${inr(P.addons.mockMarathon)} one-time`,
-      },
-      {
-        n: 'Printed Kit',
-        w: 'modules, formula books and PYQ books, delivered home',
-        s: `${inr(P.addons.printedKit)} one-time`,
+        href: lead('addon-olympiad'),
       },
       {
         n: 'Counselling',
-        w: 'JoSAA/CSAB or MCC/state counselling, choice filling and shortlisting',
+        w: 'JoSAA/CSAB, MCC & state counselling, choice filling. open to non-members',
         s: `${inr(P.addons.counselling)} one-time`,
+        href: lead('addon-counselling'),
       },
       {
-        n: 'Parent Pro',
-        w: 'a monthly video PTM with the mentor, plus a detailed report',
-        s: `${inr(P.addons.parentPro)}/mo`,
-      },
-      {
-        n: 'Calm Mind',
-        w: 'an exam-stress and focus session with a counsellor',
-        s: `${inr(P.addons.calmMind)}/session`,
+        n: 'Printed Kit',
+        w: 'Printed Study Kit: modules, formula books and PYQ books, delivered home',
+        s: `${inr(P.addons.printedKit)} one-time`,
+        href: lead('addon-printed-kit'),
       },
     ],
   },
@@ -394,8 +498,7 @@ export const plans = {
       line: `${inr(P.monthly)} a month · cancel any time`,
       sub: `≈${inr(pricing.perDayMonthly)} a day`,
       cta: 'start monthly',
-      // no checkout yet: enrolment happens over WhatsApp
-      href: `${brand.whatsappHref}?text=enrol%20monthly`,
+      href: lead('plan-monthly'),
     },
     {
       id: 'quarterly',
@@ -407,8 +510,7 @@ export const plans = {
       line: `${inr(pricing.effQuarterly)}/mo effective · save ${inr(pricing.saveQuarterly)}`,
       sub: 'one term, one mentor, zero gaps',
       cta: 'start quarterly',
-      // no checkout yet: enrolment happens over WhatsApp
-      href: `${brand.whatsappHref}?text=enrol%20quarterly`,
+      href: lead('plan-quarterly'),
     },
     {
       id: 'annual',
@@ -420,8 +522,7 @@ export const plans = {
       line: `${inr(pricing.effAnnual)}/mo effective · save ${inr(pricing.saveAnnual)}`,
       sub: `≈${inr(pricing.perDayAnnual)} a day · the whole syllabus, one plan`,
       cta: 'start annual',
-      // no checkout yet: enrolment happens over WhatsApp
-      href: `${brand.whatsappHref}?text=enrol%20annual`,
+      href: lead('plan-annual'),
     },
   ],
   includedTitle: 'everything included',
@@ -431,9 +532,46 @@ export const plans = {
     { k: 'material', items: ['Notes + DPPs', 'Chapter-wise PYQs, 20 years', 'Formula sheets', 'NCERT-mapped content'] },
     { k: 'tests', items: ['Weekly chapter tests', 'Monthly full mocks', 'All-India Test Series', 'Doubts answered within 24h'] },
     { k: 'analytics', items: ['Chapter heatmaps', 'Time per question', 'Silly-mistake tracker', 'Rank predictor'] },
-    { k: 'discipline + parents', items: ['The Discipline Engine', 'Parent dashboard', 'Monthly report + alerts', 'Board-exam alignment, 11–12'] },
+    { k: 'discipline + parents', items: ['The Discipline Engine', 'Parent dashboard', 'Monthly report + alerts', 'Boards + competitive, together'] },
   ],
-  trust: ['free diagnostic test', '7-day full refund', 'EMI available', 'sibling discount 10%'],
+  trust: [
+    'free diagnostic',
+    'scholarships up to 50%',
+    funnel.referral.buddyChip,
+    funnel.referral.squadChip,
+    '7-day refund {{CONFIRM}}',
+  ],
+  // "not ready for ₹3,999? start small." (receipts cards under the core plan)
+  starterTitle: `not ready for ${inr(P.monthly)}? start small.`,
+  starterSub: 'we don’t replace your coaching. we make it work.',
+  starter: [
+    {
+      id: 'diagnostic', price: 0, suf: '', name: 'Free Diagnostic Test',
+      line: '90 minutes, a chapter-wise weakness map and a 15-min mentor call. parents welcome',
+      cta: 'take the test', href: lead('diagnostic', { from: 'pricing' }),
+    },
+    {
+      id: 'trial', price: P.starter.trial, suf: '', name: '7-day trial',
+      line: 'the full core plan for a week, including one real 1:1 mentor session',
+      cta: 'start the ₹1 trial', href: lead('trial'),
+    },
+    {
+      id: 'mock99', price: P.starter.mockReview, suf: '', name: 'Mock + Mentor Review',
+      line: 'one full mock, deep analysis, a 20-min call: “here’s your +40 marks”',
+      cta: 'book the review', href: lead('mock99'),
+    },
+    {
+      id: 'blueprint', price: P.starter.blueprint, suf: '', name: 'Exam Strategy Blueprint',
+      line: 'one 1:1 session. you leave with a plan all the way to exam day',
+      cta: 'get the blueprint', href: lead('blueprint'),
+    },
+    {
+      id: 'companion', price: P.starter.companion, suf: '/mo', name: 'Coaching Companion',
+      line: 'already in a coaching institute? upload your current coaching’s tests; your mentor analyses them and plans your week',
+      cta: 'add a companion', href: lead('companion'),
+    },
+  ],
+  trialNote: funnel.trialTerms,
   note: pricing.gstNote,
   parents: 'for parents: one subscription, one invoice, and a report every month that shows where the money is going.',
 };
@@ -444,8 +582,8 @@ export const play = {
   titleSerif: 'wall',
   aside: '*for your study desk',
   lede: 'posters for your study desk. screenshot one. look at it at 2 a.m. this is what happens when the motivation runs out and the discipline has to take over.',
-  cta: 'follow us on Instagram',
-  ctaHref: brand.instagram,
+  cta: 'join the 7-day discipline challenge',
+  ctaHref: lead('challenge', { from: 'wall' }),
   marquee: ['focus', 'revise', 'practise', 'test', 'analyse', 'repeat', 'show up'],
   filters: [
     { key: 'all', label: 'all' },
@@ -513,7 +651,7 @@ export const journey = {
     {
       v: 'v0.1', vSmall: '-beta', type: 'pre-release', lane: 'main', date: 'day 0',
       title: 'Diagnostic test', org: 'free · 90 minutes · all subjects',
-      notes: [['add', 'we find where you actually stand'], ['bug', 'known issue: you thought you knew rotational motion']],
+      notes: [['add', 'we find where you actually stand'], ['add', 'free. with a mentor call. parents welcome.'], ['bug', 'known issue: you thought you knew rotational motion']],
     },
     {
       v: 'v0.2', vSmall: '-beta', type: 'pre-release', lane: 'side', date: 'week 1',
@@ -565,7 +703,7 @@ export const journey = {
     v: 'v4.0',
     title: 'Your rank, next.',
     branch: 'feat/crack-it',
-    notes: [['add', 'counselling, college, the next chapter'], ['chg', 'your relatives finally stop asking']] as [('add' | 'chg'), string][],
+    notes: [['add', 'counselling, college, the next chapter'], ['add', 'counselling desk: choice filling done right'], ['chg', 'your relatives finally stop asking']] as [('add' | 'chg'), string][],
     cta: 'start your journey',
     href: '#pricing',
   },
@@ -622,10 +760,10 @@ export const about = {
   phone: [
     { key: 'mentor', app: 'Mentor', when: 'now', text: 'great mock! let’s fix those 7 silly mistakes at 7 pm.' },
     { key: 'streak', app: 'Streak', when: '4m', text: '42 days. don’t you dare break it.' },
-    { key: 'check', app: 'Doubt solved', when: '1h', text: 'your Ksp question has a 2-step answer.' },
+    { key: 'check', app: 'Scholarship', when: 'now', text: 'you scored 82%. 30% off unlocked.' },
     { key: 'mentor', app: 'Parent app', when: '2h', text: 'Aarav: 5h 40m studied today, mock 214/300 ↑18' },
     { key: 'streak', app: 'Reels', when: 'blocked', text: 'focus mode said no. nice try.' },
-    { key: 'check', app: 'Test', when: '3h', text: 'sunday full mock unlocks at 9 a.m.' },
+    { key: 'streak', app: 'Challenge', when: '2h', text: 'day 4/7 done. 3 more to win.' },
   ],
   frame: {
     aria: 'A gold frame with no photo in it. not pictured: the friends who quizzed you on the periodic table at 1 a.m.',
@@ -701,6 +839,30 @@ export const faq = {
       a: 'In-app doubts are answered within 24 hours. The Live Doubt Pass add-on gets you live rooms and a priority queue.',
     },
     {
+      q: 'How does the scholarship test work?',
+      a: `It’s free and online. Your score sets your discount on the quarterly or annual core plan: ${funnel.scholarshipTiers.map((t) => `${t.score} → ${t.off}% off`).join(', ')}. Next test: {{SCHOLARSHIP_DATE}}.`,
+    },
+    {
+      q: `What exactly do I get in the ${inr(P.starter.trial)} trial? Will I be charged after?`,
+      a: 'The full core plan for 7 days, including one real 1:1 mentor session. No auto-debit: nothing is charged after the 7 days unless you choose a plan. {{CONFIRM_TRIAL_TERMS}}',
+    },
+    {
+      q: 'I already go to a coaching institute. Is the Coaching Companion for me?',
+      a: `Yes, that’s exactly who it’s for (${inr(P.starter.companion)}/mo). Upload your current coaching’s tests; your mentor analyses them and plans your week around your classes. We don’t replace your coaching. We make it work.`,
+    },
+    {
+      q: 'How accurate is the predictor?',
+      a: 'It’s an estimate from last year’s official data, not a guarantee. Cutoffs and closing ranks change every year with paper difficulty, seats and category.',
+    },
+    {
+      q: 'How does the Study Buddy referral work?',
+      a: `When 2 friends join through you, you and they each get 1 month at 50% off. Squads of 3 or more get 15% off each plus a shared leaderboard. {{CONFIRM}}`,
+    },
+    {
+      q: 'My child lives in a hostel. What does the Away-From-Home Pack include?',
+      a: `Daily check-ins, wellbeing calls with a counsellor, and instant parent alerts on missed tests or broken streaks. ${inr(P.addons.awayFromHome)}/mo on top of the core plan.`,
+    },
+    {
       q: 'Is my child’s data private?',
       a: 'Your child’s data is used only to plan, teach and report to you. We never sell it. {{PRIVACY_POLICY_URL}}',
     },
@@ -712,7 +874,8 @@ export const footer = {
   title2pre: 'on',
   title2serif: 'every',
   title2post: 'answer sheet.',
-  hire: cta.primary,
+  hire: 'take the free test',
+  hireHref: lead('diagnostic', { from: 'footer-hire' }),
   copyright: `© 2026 ${brand.name} · built for aspirants, checked by parents.`,
   bugsSay: 'a few distractions got into the footer. squash them.',
   bugsCount: 'distractions squashed',
@@ -723,15 +886,17 @@ export const footer = {
     {
       h: 'students',
       links: [
-        { label: 'free diagnostic test', href: cta.diagnosticHref, ext: true, cursor: 'test' },
-        { label: 'WhatsApp us', href: brand.whatsappHref, ext: true, cursor: 'chat' },
+        { label: 'free diagnostic test', href: lead('diagnostic', { from: 'footer' }), ext: true, cursor: 'test' },
+        { label: `scholarship test · ${'{{SCHOLARSHIP_DATE}}'}`, href: lead('scholarship', { from: 'footer' }), ext: true, cursor: 'register' },
+        { label: 'WhatsApp us', href: WHATSAPP_URL('Hi SamarthX, I have a question'), ext: true, cursor: 'chat' },
       ],
     },
     {
       h: 'parents',
       links: [
         { label: 'book a call', href: brand.phoneHref, ext: false, cursor: 'call' },
-        { label: 'sample parent report', href: '#p-parents', ext: false, cursor: 'look' },
+        { label: 'sample parent report', href: '/sample-parent-report.pdf', ext: true, cursor: 'pdf' },
+        { label: 'book the free diagnostic', href: lead('diagnostic', { from: 'footer-parents' }), ext: true, cursor: 'test' },
       ],
     },
     {
@@ -752,12 +917,13 @@ export const footer = {
     },
   ],
   dock: [
-    { id: 'work', label: 'app' },
+    { id: 'start', label: 'start' },
     { id: 'pricing', label: 'plans' },
     { id: 'timeline', label: 'journey' },
     { id: 'faq', label: 'faq' },
   ],
-  dockCta: `${inr(P.monthly)}/mo`,
+  dockCta: 'free test',
+  dockCtaHref: lead('diagnostic', { from: 'dock' }),
   dockMail: 'say hi',
   duck: [
     'explain it to me out loud. if you can’t, you don’t know it yet.',

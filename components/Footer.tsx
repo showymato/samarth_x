@@ -78,7 +78,7 @@ export default function Footer() {
             </p>
           </div>
           <div className="foot__main">
-            <a className="foot__hire" href="#pricing" data-cursor="enroll">
+            <a className="foot__hire" href={footer.hireHref} target="_blank" rel="noopener" data-cursor="free">
               <span>{footer.hire}</span>
               <span className="eyes">
                 <span className="eye" />
@@ -150,7 +150,7 @@ export default function Footer() {
           ))}
         </div>
         <span className="dock__sep" aria-hidden="true" />
-        <a className="dock__cta" href="#pricing" data-cursor="enroll">
+        <a className="dock__cta" href={footer.dockCtaHref} target="_blank" rel="noopener" data-cursor="free">
           {footer.dockCta}{' '}
           <svg viewBox="0 0 16 16" aria-hidden="true">
             <path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />

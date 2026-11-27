@@ -1,8 +1,66 @@
 // Pricing + FAQ. Composed only from existing classes and tokens:
 // bench cards (with a receipts-style number in the visual), the skills grid,
 // chips and the project-card links. No new styles.
-import { plans, faq, cta, brand } from '@/lib/content';
+import { plans, faq, cta, brand, start } from '@/lib/content';
 import { SplitTitle, Arrow, ext } from './Work';
+
+export function Start() {
+  return (
+    <section className="work" id="start" aria-labelledby="start-t">
+      <div className="wrap work__head">
+        <div>
+          <span className="eyebrow">{start.eyebrow}</span>
+          <SplitTitle id="start-t" className="sec-title" label={`${start.title} ${start.titleSerif}`}>
+            {start.title} <span className="serif">{start.titleSerif}</span>
+          </SplitTitle>
+        </div>
+      </div>
+      <p className="wrap sec-lede work__lede" data-reveal="">
+        {start.lede}
+      </p>
+      <div className="wrap bench">
+        <div className="bench__grid">
+          {start.cards.map((c) => (
+            <article className="bench__card" id={c.id} key={c.id} style={{ ['--accent' as string]: c.accent }} data-reveal="">
+              <div className="bench__vis">
+                <div className="rc__n" style={{ position: 'relative' }}>
+                  <span className="rc__pre">{c.big.pre}</span>
+                  <span>{c.big.n}</span>
+                  <span className="rc__suf">{c.big.suf}</span>
+                </div>
+              </div>
+              <div className="bench__info">
+                <span className="bench__role">{c.role}</span>
+                <h3 className="bench__title">{c.title}</h3>
+                <p className="bench__blurb">{c.blurb}</p>
+                <ul className="bench__tags">
+                  {c.tags.map((t) => (
+                    <li className="chip" key={t}>
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+                <div className="pc__links">
+                  {c.links.map((l) => (
+                    <a
+                      key={l.label}
+                      className={'main' in l && l.main ? 'pc__link pc__link--main' : 'pc__link'}
+                      href={l.href}
+                      {...ext(l.href)}
+                      data-cursor="start"
+                    >
+                      {l.label} <Arrow />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export function Pricing() {
   return (
@@ -48,6 +106,31 @@ export function Pricing() {
               </div>
             </article>
           ))}
+        </div>
+        <div className="more" id="starter">
+          <div className="receipts__head">
+            <h3 className="eyebrow">{plans.starterTitle}</h3>
+            <p className="receipts__aside">{plans.starterSub}</p>
+          </div>
+          <ul className="receipts__list">
+            {plans.starter.map((o) => (
+              <li className="rc" data-reveal="" key={o.id} id={`offer-${o.id}`}>
+                <div className="rc__n">
+                  <span className="rc__pre">₹</span>
+                  <span data-count={o.price}>{o.price}</span>
+                  <span className="rc__suf">{o.suf}</span>
+                </div>
+                <p className="rc__l">{o.name}</p>
+                <p className="rc__f">{o.line}</p>
+                <div className="pc__links">
+                  <a className="pc__link" href={o.href} {...ext(o.href)} data-cursor="start">
+                    {o.cta} <Arrow />
+                  </a>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <p className="rc__f">{plans.trialNote}</p>
         </div>
         <ul className="pc__tags" aria-label="Good to know">
           {plans.trust.map((t) => (

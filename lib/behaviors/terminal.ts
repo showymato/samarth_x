@@ -1,5 +1,7 @@
 import { qs, copyText, toast } from './utils';
-import { brand as person, work, about, plans, quotes, faq, inr, pricing, cta } from '@/lib/content';
+import { brand as person, work, about, plans, quotes, faq, inr, pricing, cta, lead, WHATSAPP_URL, predictor, funnel } from '@/lib/content';
+import jeeData from '@/data/predictor/jee.json';
+import neetData from '@/data/predictor/neet.json';
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
@@ -15,12 +17,83 @@ const HELP = `available commands:
   <b>discipline</b>  the discipline engine
   <b>quote</b>       one for the wall
   <b>diagnostic</b>  the free diagnostic test
+  <b>scholarship</b> up to 50% off the core plan
+  <b>trial</b>       the full plan for ₹1, 7 days
+  <b>challenge</b>   the 7-day discipline challenge
+  <b>predict jee</b> &lt;percentile&gt;   e.g. predict jee 97.4
+  <b>predict neet</b> &lt;marks&gt;       e.g. predict neet 610
   <b>faq</b>         the honest answers
   <b>contact</b>     call, whatsapp, email
   <b>clear</b>       tidy up
   …and a few secret ones. aspirants try things.`;
 
 let chai = 0;
+
+/* ───────── rank & college predictor: estimates only, never invented data ───────── */
+type JeeRow = { institute: string; program: string; quota?: string; category: string; gender?: string; closingRank: number };
+type NeetRow = { college: string; state?: string; quota?: string; category: string; closingRank: number };
+type Data<R> = { source: string; year: number | null; rows: R[]; marksToRank?: { marks: number; rank: number }[] };
+const jee = jeeData as unknown as Data<JeeRow>;
+const neet = neetData as unknown as Data<NeetRow>;
+
+const link = (href: string, label: string) => `<a href="${href}" target="_blank" rel="noopener">${esc(label)}</a>`;
+const disclaimer = (year: number | null) =>
+  `<span class="dim">estimate based on ${year ?? esc(predictor.year)} data, not a guarantee.</span>`;
+const handoff = (exam: string, score: string) =>
+  `want your college list? send your score → ${link(WHATSAPP_URL(`Predict my college: exam ${exam}, score ${score}, category __, state __`), person.whatsapp)}`;
+const fmt = (n: number) => Math.round(n).toLocaleString('en-IN');
+
+function predict(args: string[]): string {
+  const [exam, raw, cat = 'open'] = args;
+  const category = cat.toUpperCase();
+  const v = Number(raw);
+  if (exam === 'jee') {
+    if (!raw || !Number.isFinite(v) || v < 0 || v > 100) return 'usage: <b>predict jee &lt;percentile&gt;</b> e.g. predict jee 97.4 (optional category: obc-ncl, sc, st, ews)';
+    const total = Number(predictor.jeeTotalCandidates);
+    const lines = [`<b>JEE Main</b> · ${v} percentile`];
+    if (!Number.isFinite(total) || total <= 0) {
+      lines.push('rank estimate needs the official candidate count for the year (not set yet).');
+      lines.push(handoff('JEE Main', `${v} percentile`));
+      lines.push(disclaimer(jee.year));
+      return lines.join('\n');
+    }
+    const rank = ((100 - v) * total) / 100;
+    lines.push(`estimated CRL rank ≈ <b>${fmt(Math.max(1, rank))}</b> <span class="dim">(= (100 − ${v}) × ${fmt(total)} / 100)</span>`);
+    const hits = jee.rows
+      .filter((r) => r.category.toUpperCase() === category && r.closingRank >= rank)
+      .sort((a, b) => a.closingRank - b.closingRank)
+      .slice(0, 8);
+    if (!jee.rows.length) lines.push(handoff('JEE Main', `${v} percentile`));
+    else if (!hits.length) lines.push(`no ${esc(category)} rows close above that rank in the data. ${handoff('JEE Main', `${v} percentile`)}`);
+    else hits.forEach((r) => lines.push(`  ${esc(r.institute)} · ${esc(r.program)} <span class="dim">closing ${fmt(r.closingRank)}</span>`));
+    lines.push(disclaimer(jee.year));
+    return lines.join('\n');
+  }
+  if (exam === 'neet') {
+    if (!raw || !Number.isFinite(v) || v < 0 || v > 720) return 'usage: <b>predict neet &lt;marks&gt;</b> e.g. predict neet 610 (out of 720)';
+    const lines = [`<b>NEET-UG</b> · ${v}/720`];
+    const table = (neet.marksToRank ?? []).slice().sort((a, b) => b.marks - a.marks);
+    if (!neet.rows.length || table.length < 2) {
+      lines.push(handoff('NEET-UG', `${v}/720`));
+      lines.push(disclaimer(neet.year));
+      return lines.join('\n');
+    }
+    // linear interpolation between the two nearest official (marks, rank) points
+    let rank = table[table.length - 1].rank;
+    for (let i = 0; i < table.length - 1; i++) {
+      const a = table[i], b = table[i + 1];
+      if (v <= a.marks && v >= b.marks) { rank = a.rank + ((a.marks - v) / (a.marks - b.marks || 1)) * (b.rank - a.rank); break; }
+      if (v > table[0].marks) { rank = table[0].rank; break; }
+    }
+    lines.push(`estimated AIR ≈ <b>${fmt(rank)}</b>`);
+    const hits = neet.rows.filter((r) => r.category.toUpperCase() === category && r.closingRank >= rank).sort((a, b) => a.closingRank - b.closingRank).slice(0, 8);
+    if (!hits.length) lines.push(handoff('NEET-UG', `${v}/720`));
+    else hits.forEach((r) => lines.push(`  ${esc(r.college)}${r.state ? ` · ${esc(r.state)}` : ''} <span class="dim">closing ${fmt(r.closingRank)}</span>`));
+    lines.push(disclaimer(neet.year));
+    return lines.join('\n');
+  }
+  return 'usage: <b>predict jee &lt;percentile&gt;</b> or <b>predict neet &lt;marks&gt;</b>';
+}
 let lastQuote = -1;
 
 const go = (sel: string, msg: string) => () => {
@@ -78,12 +151,18 @@ motivation gets you to the desk. this keeps you there.`,
     lastQuote = k;
     return esc(quotes[k]);
   },
-  diagnostic: () => {
-    window.setTimeout(() => window.open(cta.diagnosticHref, '_blank', 'noopener'), 900);
-    return `booking your <b>free diagnostic test</b>… 90 minutes, all subjects.
-we find where you stand. you find out what to fix first.
-<span class="ok">opening WhatsApp…</span>`;
-  },
+  diagnostic: `<b>free diagnostic test</b>: 90 minutes, a chapter-wise weakness map, a 15-min mentor call. parents welcome.
+${link(lead('diagnostic', { from: 'terminal' }), 'take the free diagnostic test →')}`,
+  scholarship: `<b>scholarship test</b>: score well, pay less. up to 50% off quarterly/annual. next: ${esc(funnel.scholarshipDate)}
+${funnel.scholarshipTiers.map((t) => `  ${t.score.padEnd(22)}${t.off}% off`).join('\n')}
+${link(lead('scholarship', { from: 'terminal' }), 'register, it’s free →')}`,
+  trial: `<b>${inr(pricing.starter.trial)} trial</b>: the full core plan for 7 days, one real 1:1 mentor session included.
+${esc(funnel.trialTerms)}
+${link(lead('trial', { from: 'terminal' }), 'start the ₹1 trial →')}`,
+  challenge: `<b>the 7-day discipline challenge</b>: free.
+  a daily target from a mentor, a check-in every night, a streak you don’t want to break.
+  finish all 7 days and you’ve proved the only thing that matters: you can show up.
+${link(lead('challenge', { from: 'terminal' }), 'join the challenge →')}`,
   faq: () =>
     faq.items
       .map((f, i) => `<b>Q${String(i + 1).padStart(2, '0')}</b> ${esc(f.q)}\n    <span class="dim">${esc(f.a)}</span>`)
@@ -183,6 +262,7 @@ export function initTerminal() {
     if (!res && key.startsWith('echo ')) res = esc(cmd.slice(5));
     if (!res && key.startsWith('cd')) res = 'there’s nowhere else to go. you’re already home.';
     if (!res && key.startsWith('sudo ')) res = COMMANDS.sudo;
+    if (!res && (key === 'predict' || key.startsWith('predict '))) res = predict(key.split(' ').slice(1));
     if (!res) res = `zsh: command not found: ${esc(cmd.split(' ')[0])}. try <b>help</b>`;
     const html = typeof res === 'function' ? await res() : res;
     print(cmd, html);

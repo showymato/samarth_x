@@ -8,7 +8,8 @@
     "start": "next start",
     "gen:posters": "node scripts/gen-posters.mjs",
     "gen:aspirant": "node scripts/gen-aspirant.mjs",
-    "gen:assets": "node scripts/gen-assets.mjs"
+    "gen:assets": "node scripts/gen-assets.mjs",
+    "gen:report": "node scripts/gen-sample-report.mjs"
   },
   "dependencies": {
     "gsap": "3.15.1",

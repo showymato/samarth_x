@@ -166,7 +166,7 @@ export default function Work() {
         <ul className="more__list">
           {work.more.rows.map((r, i) => (
             <li className="more__row" data-reveal="" key={r.n}>
-              <a href="#pricing" data-cursor="add">
+              <a href={r.href} {...ext(r.href)} data-cursor="add">
                 <span className="more__i">{String(i + 1).padStart(2, '0')}</span>
                 <span className="more__n">{r.n}</span>
                 <span className="more__w">{r.w}</span>

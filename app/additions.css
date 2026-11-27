@@ -146,7 +146,7 @@ html.is-loading, html.is-loading body { overflow: hidden; }
 .hx.is-dragging, .hx.is-dragging * { user-select: none; }
 
 /* ---------- reveal states ---------- */
-.js .pc__title, .js .pc__blurb, .js .pc__tags, .js .pc__links { opacity: 0; transform: translateY(40px); }
+.js .stack__item :is(.pc__title, .pc__blurb, .pc__tags, .pc__links) { opacity: 0; transform: translateY(40px); }
 .js .mf__sub { opacity: 0; }
 .js .npm__out p, .js .npm__run { opacity: 0; transform: translateY(8px); }
 .js .sl { transform: translateY(110%); }

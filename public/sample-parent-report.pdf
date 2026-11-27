@@ -1,0 +1,119 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Length 5301 >>
+stream
+0.984 0.961 0.965 rg 0 0 595 842 re f
+q 0.94 0.90 0.98 rg BT /F2 120 Tf 0.766 0.643 -0.643 0.766 120 220 Tm (SAMPLE) Tj ET Q
+0.118 0.078 0.125 rg 0 750 595 92 re f
+BT /F2 22 Tf 1.000 0.722 0.863 rg 40 796 Td (SamarthX) Tj ET
+BT /F1 10 Tf 1.000 1.000 1.000 rg 40 772 Td (Monthly parent report  -  SAMPLE WITH FICTIONAL DATA) Tj ET
+BT /F1 10 Tf 1.000 1.000 1.000 rg 400 796 Td (Student: Aarav \(sample\)) Tj ET
+BT /F1 10 Tf 1.000 1.000 1.000 rg 400 780 Td (Program: JEE Main + Advanced) Tj ET
+BT /F1 10 Tf 1.000 1.000 1.000 rg 400 764 Td (Month: sample month) Tj ET
+1.000 0.894 0.361 rg 40 718 515 22 re f
+BT /F2 9 Tf 0.118 0.078 0.125 rg 50 725 Td (This is a SAMPLE. Every name and number on this page is made up to show the format of the real report.) Tj ET
+1.000 1.000 1.000 rg 40 622 121 80 re f
+BT /F1 8 Tf 0.620 0.612 0.584 rg 50 682 Td (ATTENDANCE) Tj ET
+BT /F2 22 Tf 0.545 0.361 0.965 rg 50 654 Td (96%) Tj ET
+BT /F1 8 Tf 0.333 0.325 0.306 rg 50 636 Td (live sessions + 1:1s) Tj ET
+1.000 1.000 1.000 rg 171 622 121 80 re f
+BT /F1 8 Tf 0.620 0.612 0.584 rg 181 682 Td (STUDY HOURS) Tj ET
+BT /F2 22 Tf 0.545 0.361 0.965 rg 181 654 Td (124 h) Tj ET
+BT /F1 8 Tf 0.333 0.325 0.306 rg 181 636 Td (logged in the app) Tj ET
+1.000 1.000 1.000 rg 302 622 121 80 re f
+BT /F1 8 Tf 0.620 0.612 0.584 rg 312 682 Td (HABIT SCORE) Tj ET
+BT /F2 22 Tf 0.545 0.361 0.965 rg 312 654 Td (82/100) Tj ET
+BT /F1 8 Tf 0.333 0.325 0.306 rg 312 636 Td (targets met vs planned) Tj ET
+1.000 1.000 1.000 rg 433 622 121 80 re f
+BT /F1 8 Tf 0.620 0.612 0.584 rg 443 682 Td (STREAK) Tj ET
+BT /F2 22 Tf 0.545 0.361 0.965 rg 443 654 Td (42 days) Tj ET
+BT /F1 8 Tf 0.333 0.325 0.306 rg 443 636 Td (longest this month) Tj ET
+BT /F2 12 Tf 0.118 0.078 0.125 rg 40 582 Td (Test trend \(full mocks, out of 300\)) Tj ET
+0.788 0.780 0.749 RG 1 w 60 452 m 300 452 l S
+0.780 0.702 1.000 rg 75 452 34 61.60000000000001 re f
+BT /F2 9 Tf 0.118 0.078 0.125 rg 79 519.6 Td (168) Tj ET
+BT /F1 8 Tf 0.333 0.325 0.306 rg 73 438 Td (Mock 11) Tj ET
+0.780 0.702 1.000 rg 131 452 34 66.36666666666667 re f
+BT /F2 9 Tf 0.118 0.078 0.125 rg 135 524.3666666666667 Td (181) Tj ET
+BT /F1 8 Tf 0.333 0.325 0.306 rg 129 438 Td (Mock 12) Tj ET
+0.780 0.702 1.000 rg 187 452 34 71.86666666666666 re f
+BT /F2 9 Tf 0.118 0.078 0.125 rg 191 529.8666666666667 Td (196) Tj ET
+BT /F1 8 Tf 0.333 0.325 0.306 rg 185 438 Td (Mock 13) Tj ET
+1.000 0.310 0.604 rg 243 452 34 78.46666666666667 re f
+BT /F2 9 Tf 0.118 0.078 0.125 rg 247 536.4666666666667 Td (214) Tj ET
+BT /F1 8 Tf 0.333 0.325 0.306 rg 241 438 Td (Mock 14) Tj ET
+BT /F2 10 Tf 0.071 0.631 0.314 rg 320 562 Td (Up 18 marks since last month.) Tj ET
+BT /F1 10 Tf 0.118 0.078 0.125 rg 320 544 Td (Silly mistakes: 7 \(-28 marks\), all fixable.) Tj ET
+BT /F1 10 Tf 0.118 0.078 0.125 rg 320 526 Td (Time: 41% of time on 12% of marks.) Tj ET
+BT /F1 10 Tf 0.118 0.078 0.125 rg 320 508 Td (Predicted percentile: an estimate, not) Tj ET
+BT /F1 10 Tf 0.118 0.078 0.125 rg 320 494 Td (a guarantee.) Tj ET
+BT /F2 12 Tf 0.118 0.078 0.125 rg 40 402 Td (Chapter strength) Tj ET
+BT /F1 10 Tf 0.118 0.078 0.125 rg 40 376 Td (Mechanics) Tj ET
+0.937 0.929 0.902 rg 190 374 300 10 re f
+0.071 0.631 0.314 rg 190 374 258 10 re f
+BT /F2 9 Tf 0.118 0.078 0.125 rg 500 376 Td (86%) Tj ET
+BT /F1 10 Tf 0.118 0.078 0.125 rg 40 354 Td (Thermodynamics) Tj ET
+0.937 0.929 0.902 rg 190 352 300 10 re f
+0.071 0.631 0.314 rg 190 352 222 10 re f
+BT /F2 9 Tf 0.118 0.078 0.125 rg 500 354 Td (74%) Tj ET
+BT /F1 10 Tf 0.118 0.078 0.125 rg 40 332 Td (Electrostatics) Tj ET
+0.937 0.929 0.902 rg 190 330 300 10 re f
+1.000 0.812 0.361 rg 190 330 186 10 re f
+BT /F2 9 Tf 0.118 0.078 0.125 rg 500 332 Td (62%) Tj ET
+BT /F1 10 Tf 0.118 0.078 0.125 rg 40 310 Td (Organic chemistry) Tj ET
+0.937 0.929 0.902 rg 190 308 300 10 re f
+1.000 0.231 0.188 rg 190 308 122.99999999999999 10 re f
+BT /F2 9 Tf 0.118 0.078 0.125 rg 500 310 Td (41%) Tj ET
+BT /F1 10 Tf 0.118 0.078 0.125 rg 40 288 Td (Calculus) Tj ET
+0.937 0.929 0.902 rg 190 286 300 10 re f
+0.071 0.631 0.314 rg 190 286 234 10 re f
+BT /F2 9 Tf 0.118 0.078 0.125 rg 500 288 Td (78%) Tj ET
+BT /F1 10 Tf 0.118 0.078 0.125 rg 40 266 Td (Coordinate geometry) Tj ET
+0.937 0.929 0.902 rg 190 264 300 10 re f
+1.000 0.812 0.361 rg 190 264 174 10 re f
+BT /F2 9 Tf 0.118 0.078 0.125 rg 500 266 Td (58%) Tj ET
+BT /F2 12 Tf 0.118 0.078 0.125 rg 40 220 Td (Mentor's remarks) Tj ET
+1.000 1.000 1.000 rg 40 128 515 80 re f
+BT /F1 10 Tf 0.118 0.078 0.125 rg 52 190 Td (Strong month. Consistency is up and the mock trend is clearly improving.) Tj ET
+BT /F1 10 Tf 0.118 0.078 0.125 rg 52 174 Td (Organic chemistry is the leak: 2 extra DPPs a week + a 1:1 on reaction mechanisms.) Tj ET
+BT /F1 10 Tf 0.118 0.078 0.125 rg 52 158 Td (Sleep: protect 11 p.m. lights-out before mocks. We will review the error log every Sunday.) Tj ET
+BT /F1 10 Tf 0.118 0.078 0.125 rg 52 142 Td (Next PTM: sample date. Questions any time on the parent app.) Tj ET
+BT /F2 12 Tf 0.118 0.078 0.125 rg 40 100 Td (Alerts this month) Tj ET
+BT /F1 10 Tf 0.118 0.078 0.125 rg 40 82 Td (1 missed chapter test \(rescheduled and completed\).  0 broken streaks.) Tj ET
+0.894 0.886 0.855 RG 1 w 40 56 m 555 56 l S
+BT /F1 8 Tf 0.620 0.612 0.584 rg 40 40 Td (SamarthX  -  sample parent report  -  fictional data for illustration only. Not a real student.) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Title (SamarthX - SAMPLE parent report, fictional data) /Producer (scripts/gen-sample-report.mjs) >>
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000000348 00000 n 
+0000000450 00000 n 
+0000005803 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R /Info 7 0 R >>
+startxref
+5923
+%%EOF

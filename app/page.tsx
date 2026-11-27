@@ -1,7 +1,7 @@
 import Hero from '@/components/Hero';
 import { Short, Receipts } from '@/components/Short';
 import Work from '@/components/Work';
-import { Pricing, Faq } from '@/components/Pricing';
+import { Start, Pricing, Faq } from '@/components/Pricing';
 import { Play, Journey } from '@/components/PlayJourney';
 import About from '@/components/About';
 import Footer from '@/components/Footer';
@@ -21,6 +21,7 @@ export default function Page() {
         <Hero />
         <Short />
         <Receipts />
+        <Start />
         <Work />
         <Pricing />
         <Play />
