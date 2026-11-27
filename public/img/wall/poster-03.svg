@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="960" viewBox="0 0 640 960">
+<style>
+  .spin{transform-box:fill-box;transform-origin:center;animation:spin 14s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .blink{animation:blink 1.1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{50%{transform:scale(1.12)}}
+  .drift{animation:drift 7s ease-in-out infinite alternate}
+  @keyframes drift{to{transform:translateX(-40px)}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+<defs><pattern id="dt" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1" fill="#000" fill-opacity=".07"/></pattern></defs>
+<rect width="640" height="960" fill="#ffe45c"/>
+<g class="drift"><rect x="40" y="80" width="34" height="34" rx="8" fill="#12a150" fill-opacity="0.85"/><rect x="84" y="80" width="34" height="34" rx="8" fill="#12a150" fill-opacity="0.85"/><rect x="128" y="80" width="34" height="34" rx="8" fill="#12a150" fill-opacity="0.85"/><rect x="172" y="80" width="34" height="34" rx="8" fill="#12a150" fill-opacity="0.85"/><rect x="216" y="80" width="34" height="34" rx="8" fill="#12a150" fill-opacity="0.85"/><rect x="260" y="80" width="34" height="34" rx="8" fill="#12a150" fill-opacity="0.85"/><rect x="304" y="80" width="34" height="34" rx="8" fill="#12a150" fill-opacity="0.85"/><rect x="348" y="80" width="34" height="34" rx="8" fill="#12a150" fill-opacity="0.85"/><rect x="392" y="80" width="34" height="34" rx="8" fill="#12a150" fill-opacity="0.85"/><rect x="436" y="80" width="34" height="34" rx="8" fill="#12a150" fill-opacity="0.85"/><rect x="480" y="80" width="34" height="34" rx="8" fill="#12a150" fill-opacity="0.85"/><rect x="524" y="80" width="34" height="34" rx="8" fill="#1e1420" fill-opacity="0.12"/><rect x="568" y="80" width="34" height="34" rx="8" fill="#1e1420" fill-opacity="0.12"/><rect x="612" y="80" width="34" height="34" rx="8" fill="#1e1420" fill-opacity="0.12"/></g>
+<text x="40" y="240" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-3.2399999999999998" font-size="72" fill="#1e1420">Nobody cracks</text>
+<text x="40" y="313.44" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-3.2399999999999998" font-size="72" fill="#1e1420">JEE in a day.</text>
+<text x="40" y="386.88" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-3.2399999999999998" font-size="72" fill="#8b5cf6">Everyone</text>
+<text x="40" y="460.32" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-3.2399999999999998" font-size="72" fill="#8b5cf6">who cracked it</text>
+<text x="40" y="533.76" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-3.2399999999999998" font-size="72" fill="#8b5cf6">showed up</text>
+<text x="40" y="607.2" font-family="Georgia, 'Times New Roman', serif"  font-style="italic"  font-size="77.76" fill="#ff4f9a">every day.</text>
+<rect class="blink" x="40" y="625.2" width="36" height="6.4799999999999995" fill="#ff4f9a"/>
+
+<text x="40" y="928" font-family="Consolas, Menlo, monospace" font-size="15" letter-spacing="3" fill="#1e1420" fill-opacity=".6">THE WALL · POSTER 03 · 2026</text>
+<path class="spin" fill="#ff4f9a" d="M582 904L585.52 916.48L598 920L585.52 923.52L582 936L578.48 923.52L566 920L578.48 916.48Z"/>
+<rect width="640" height="960" fill="url(#dt)" pointer-events="none"/>
+</svg>

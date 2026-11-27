@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="640" viewBox="0 0 640 640">
+<style>
+  .spin{transform-box:fill-box;transform-origin:center;animation:spin 14s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .blink{animation:blink 1.1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{50%{transform:scale(1.12)}}
+  .drift{animation:drift 7s ease-in-out infinite alternate}
+  @keyframes drift{to{transform:translateX(-40px)}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+<defs><pattern id="dt" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1" fill="#000" fill-opacity=".07"/></pattern></defs>
+<rect width="640" height="640" fill="#8b5cf6"/>
+
+<text x="40" y="150" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-2.52" font-size="56" fill="#ffe45c">Consistency</text>
+<text x="40" y="207.12" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-2.52" font-size="56" fill="#fff">is a superpower</text>
+<text x="40" y="264.24" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-2.52" font-size="56" fill="#fff">nobody wants</text>
+<text x="40" y="321.36" font-family="Georgia, 'Times New Roman', serif"  font-style="italic"  font-size="60.480000000000004" fill="#ffb8dc">to train.</text>
+<rect class="blink" x="40" y="339.36" width="28" height="6" fill="#ffb8dc"/>
+
+<text x="40" y="608" font-family="Consolas, Menlo, monospace" font-size="15" letter-spacing="3" fill="#fff" fill-opacity=".6">THE WALL · POSTER 10 · 2026</text>
+<path class="spin" fill="#ffb8dc" d="M582 584L585.52 596.48L598 600L585.52 603.52L582 616L578.48 603.52L566 600L578.48 596.48Z"/>
+<rect width="640" height="640" fill="url(#dt)" pointer-events="none"/>
+</svg>

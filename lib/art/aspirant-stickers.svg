@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="ax__stk" viewBox="0 0 289 695" width="289" height="695" overflow="visible" aria-hidden="true" focusable="false">
+<!-- static doodles: coffee ring, washi tape, formulas -->
+<g class="ax-d" aria-hidden="true">
+  <g fill="none" stroke="#2a2848" stroke-opacity=".16" stroke-linecap="round">
+    <circle cx="262" cy="560" r="25" stroke-width="3.5" stroke-dasharray="46 4 30 6 60 3"/>
+    <circle cx="263" cy="561" r="21" stroke-width="1.5" stroke-dasharray="20 10 40 6"/>
+  </g>
+  <g transform="translate(14 146) rotate(-32)">
+    <rect width="64" height="16" fill="#ff4f9a" fill-opacity=".55"/>
+    <path d="M8 0l-6 16M20 0l-6 16M32 0l-6 16M44 0l-6 16M56 0l-6 16" stroke="#fff" stroke-opacity=".55" stroke-width="3"/>
+  </g>
+  <g transform="translate(-70 300) rotate(-5)">
+    <text font-family="'Momo Signature', 'Segoe Script', cursive" font-size="17" fill="#8b5cf6">F = ma</text>
+    <path d="M0 7c10 4 22-2 32 2s18 0 26 2" stroke="#8b5cf6" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(-76 500) rotate(-4)">
+    <text font-family="'Momo Signature', 'Segoe Script', cursive" font-size="14" fill="#2a2848">PV = nRT</text>
+  </g>
+</g>
+<g transform="translate(-70 116) rotate(-6)"><g class="ax-s ax-s--pend" data-dir="-1" data-depth="0.7"><g class="ax-f"><g transform="translate(2 3)" fill="#1e1420" opacity=".14"><rect width="54" height="72" rx="7"/></g><g fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"><rect width="54" height="72" rx="7"/></g>
+  <rect width="54" height="72" rx="7" fill="#fbf5f6"/>
+  <path d="M8 10H46" stroke="#1e1420" stroke-width="2.4" stroke-linecap="round"/>
+  <g class="ax__pend"><path d="M27 10V50" stroke="#1e1420" stroke-width="1.5"/><circle cx="27" cy="54" r="7" fill="#8b5cf6"/></g>
+  <path d="M13 48a16 16 0 0 0 28 0" stroke="#ff4f9a" stroke-width="1.2" stroke-dasharray="2 2" fill="none"/>
+  <text x="27" y="68" text-anchor="middle" font-family="'Geist Mono', Consolas, monospace" font-size="5.6" fill="#1e1420">T = 2π√(l/g)</text></g></g></g>
+<g transform="translate(-64 214) rotate(-8)"><g class="ax-s ax-s--pyq" data-dir="-1" data-depth="1"><g class="ax-f"><g transform="translate(2 3)" fill="#1e1420" opacity=".14"><rect width="60" height="36" rx="9"/></g><g fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"><rect width="60" height="36" rx="9"/></g>
+  <rect width="60" height="36" rx="9" fill="#8b5cf6"/>
+  <text x="9" y="21" font-family="Geist, Arial, sans-serif" font-size="17" font-weight="800" fill="#fff" letter-spacing="-.5">PYQ</text>
+  <text x="9" y="31" font-family="'Geist Mono', Consolas, monospace" font-size="6.4" fill="#ffe45c">20 YRS ✓</text></g></g></g>
+<g transform="translate(-68 332) rotate(5)"><g class="ax-s ax-s--ncert" data-dir="-1" data-depth="0.85"><g class="ax-f"><g transform="translate(2 3)" fill="#1e1420" opacity=".14"><rect width="66" height="30" rx="8"/></g><g fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"><rect width="66" height="30" rx="8"/></g>
+  <rect width="66" height="30" rx="8" fill="#2a2848"/>
+  <text x="9" y="20" font-family="Geist, Arial, sans-serif" font-size="12" font-weight="700" fill="#fbf5f6">NCERT <tspan fill="#ffe45c">✓</tspan></text></g></g></g>
+<g transform="translate(-84 404) rotate(-5)"><g class="ax-s ax-s--note" data-dir="-1" data-depth="0.6"><g class="ax-f"><g transform="translate(2 3)" fill="#1e1420" opacity=".14"><rect width="74" height="72" rx="3"/></g><g fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"><rect width="74" height="72" rx="3"/></g>
+  <rect width="74" height="72" rx="3" fill="#ffe45c"/>
+  <rect x="24" y="-6" width="28" height="12" fill="#ff4f9a" fill-opacity=".7" transform="rotate(4 38 0)"/>
+  <text x="8" y="30" font-family="'Momo Signature', 'Segoe Script', cursive" font-size="11" fill="#1e1420">kal se nahi,</text>
+  <text x="8" y="50" font-family="'Momo Signature', 'Segoe Script', cursive" font-size="13" fill="#e0428f">aaj se.</text></g></g></g>
+<g transform="translate(230 26) rotate(0)"><g class="ax-s ax-s--atom" data-dir="1" data-depth="0.9"><g class="ax-f"><g transform="translate(2 3)" fill="#1e1420" opacity=".14"><circle cx="29" cy="29" r="30"/></g><g fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"><circle cx="29" cy="29" r="30"/></g>
+  <circle cx="29" cy="29" r="30" fill="#fbf5f6"/>
+  <g class="ax__orb" fill="none" stroke="#8b5cf6" stroke-width="1.7">
+    <ellipse cx="29" cy="29" rx="22" ry="8"/>
+    <ellipse cx="29" cy="29" rx="22" ry="8" transform="rotate(60 29 29)"/>
+    <ellipse cx="29" cy="29" rx="22" ry="8" transform="rotate(120 29 29)"/>
+    <circle cx="51" cy="29" r="2.4" fill="#2a2848" stroke="none"/><circle cx="18" cy="10" r="2.4" fill="#2a2848" stroke="none"/><circle cx="18" cy="48" r="2.4" fill="#2a2848" stroke="none"/>
+  </g>
+  <circle cx="29" cy="29" r="4.5" fill="#ff4f9a"/></g></g></g>
+<g transform="translate(282 112) rotate(9)"><g class="ax-s ax-s--air" data-dir="1" data-depth="1.1"><g class="ax-f"><g transform="translate(2 3)" fill="#1e1420" opacity=".14"><circle cx="28" cy="28" r="28"/></g><g fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"><circle cx="28" cy="28" r="28"/></g>
+  <circle cx="28" cy="28" r="28" fill="#ff4f9a"/>
+  <circle cx="28" cy="28" r="23" fill="none" stroke="#fff" stroke-opacity=".5" stroke-dasharray="3 3"/>
+  <text x="28" y="22" text-anchor="middle" font-family="'Geist Mono', Consolas, monospace" font-size="8" letter-spacing="1" fill="#fff">AIR</text>
+  <text x="28" y="41" text-anchor="middle" font-family="Geist, Arial, sans-serif" font-size="19" font-weight="800" fill="#fff">??</text></g></g></g>
+<g transform="translate(214 296) rotate(10)"><g class="ax-s ax-s--dna" data-dir="1" data-depth="0.75"><g class="ax-f"><g transform="translate(2 3)" fill="#1e1420" opacity=".14"><rect width="40" height="84" rx="9"/></g><g fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"><rect width="40" height="84" rx="9"/></g>
+  <rect width="40" height="84" rx="9" fill="#fbf5f6"/>
+  <path d="M25.0 11.4H15.0M30.9 18.2H9.1M27.8 25.0H12.2M18.3 31.8H21.7M10.2 38.6H29.8M10.2 45.4H29.8M18.3 52.2H21.7M27.8 59.0H12.2M30.9 65.8H9.1M25.0 72.6H15.0" stroke="#c7b3ff" stroke-width="2"/>
+    <path d="M20.0 8.0L22.6 9.7L25.0 11.4L27.1 13.1L28.9 14.8L30.2 16.5L30.9 18.2L31.0 19.9L30.5 21.6L29.4 23.3L27.8 25.0L25.7 26.7L23.4 28.4L20.9 30.1L18.3 31.8L15.8 33.5L13.5 35.2L11.6 36.9L10.2 38.6L9.3 40.3L9.0 42.0L9.3 43.7L10.2 45.4L11.6 47.1L13.5 48.8L15.8 50.5L18.3 52.2L20.9 53.9L23.4 55.6L25.7 57.3L27.8 59.0L29.4 60.7L30.5 62.4L31.0 64.1L30.9 65.8L30.2 67.5L28.9 69.2L27.1 70.9L25.0 72.6L22.6 74.3L20.0 76.0" fill="none" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round"/>
+    <path d="M20.0 8.0L17.4 9.7L15.0 11.4L12.9 13.1L11.1 14.8L9.8 16.5L9.1 18.2L9.0 19.9L9.5 21.6L10.6 23.3L12.2 25.0L14.3 26.7L16.6 28.4L19.1 30.1L21.7 31.8L24.2 33.5L26.5 35.2L28.4 36.9L29.8 38.6L30.7 40.3L31.0 42.0L30.7 43.7L29.8 45.4L28.4 47.1L26.5 48.8L24.2 50.5L21.7 52.2L19.1 53.9L16.6 55.6L14.3 57.3L12.2 59.0L10.6 60.7L9.5 62.4L9.0 64.1L9.1 65.8L9.8 67.5L11.1 69.2L12.9 70.9L15.0 72.6L17.4 74.3L20.0 76.0" fill="none" stroke="#ff4f9a" stroke-width="3" stroke-linecap="round"/></g></g></g>
+<g transform="translate(248 486) rotate(-7)"><g class="ax-s ax-s--reels" data-dir="1" data-depth="0.95"><g class="ax-f"><g transform="translate(2 3)" fill="#1e1420" opacity=".14"><rect width="72" height="34" rx="10"/></g><g fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"><rect width="72" height="34" rx="10"/></g>
+  <rect width="72" height="34" rx="10" fill="#1e1420"/>
+  <rect x="8" y="8" width="18" height="18" rx="5" fill="#ff4f9a"/>
+  <path d="M14 12.5v9l7-4.5z" fill="#fff"/>
+  <text x="32" y="17" font-family="Geist, Arial, sans-serif" font-size="11" font-weight="700" fill="#fff">reels</text>
+  <text x="32" y="27" font-family="'Geist Mono', Consolas, monospace" font-size="6.2" fill="#ffb8dc">“5 min”</text></g></g></g>
+<!-- focus mode pill + thumbs-up (hidden until used) -->
+<g class="ax__pill" opacity="0" transform="translate(190 104)">
+  <rect width="104" height="24" rx="12" fill="#1e1420" stroke="#fff" stroke-width="3"/>
+  <circle cx="13" cy="12" r="4" fill="#ff4f9a"/>
+  <text x="23" y="16" font-family="'Geist Mono', Consolas, monospace" font-size="9.5" fill="#fff">focus mode: ON</text>
+</g>
+<g transform="translate(14 486)"><g class="ax__thumb" opacity="0">
+  <circle r="19" fill="#fff" stroke="#8b5cf6" stroke-width="3"/>
+  <text y="8" text-anchor="middle" font-size="21">👍</text>
+</g></g>
+</svg>
