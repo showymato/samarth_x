@@ -1,5 +1,12 @@
 import { brand, pricing, faq, plans } from './content';
 
+// the site's absolute URL: {{DOMAIN}} once it's set, else the Vercel production URL, else localhost
+export const siteUrl = !brand.domain.startsWith('{{')
+  ? brand.url
+  : process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}/`
+    : 'http://localhost:3000/';
+
 const title = `${brand.name} · JEE, NEET & Olympiad mentorship app with parent tracking`;
 const description = `A personal mentor, complete study material, tests with real analytics and a parent dashboard, in one app for JEE, NEET and Olympiad aspirants. From ₹${pricing.monthly.toLocaleString('en-IN')}/month.`;
 
@@ -7,9 +14,9 @@ export const seo = { title, description };
 
 const org = {
   '@type': 'EducationalOrganization',
-  '@id': `${brand.url}#org`,
+  '@id': `${siteUrl}#org`,
   name: brand.name,
-  url: brand.url,
+  url: siteUrl,
   email: brand.email,
   telephone: brand.phone,
   address: { '@type': 'PostalAddress', addressLocality: brand.city.replace(/, IN$/, ''), addressCountry: 'IN' },
@@ -22,14 +29,14 @@ const offer = (price: number, name: string) => ({
   price: String(price),
   priceCurrency: 'INR',
   category: 'Subscription',
-  url: `${brand.url}#pricing`,
+  url: `${siteUrl}#pricing`,
 });
 
 const course = (name: string, about: string) => ({
   '@type': 'Course',
   name: `${brand.name} One · ${name}`,
   description: about,
-  provider: { '@id': `${brand.url}#org` },
+  provider: { '@id': `${siteUrl}#org` },
   inLanguage: 'en-IN',
   offers: plans.cycles.map((c) => offer(c.price, `${brand.name} One · ${c.cycle}`)),
   hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'online', courseWorkload: 'P1W' },

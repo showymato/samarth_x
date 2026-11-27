@@ -1,26 +1,19 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { brand } from '@/lib/content';
-import { seo } from '@/lib/seo';
+import { seo, siteUrl } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  // {{DOMAIN}} is a placeholder: until it's set, use the Vercel production URL (or localhost locally)
-  metadataBase: new URL(
-    !brand.domain.startsWith('{{')
-      ? brand.url
-      : process.env.VERCEL_PROJECT_PRODUCTION_URL
-        ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-        : 'http://localhost:3000',
-  ),
+  metadataBase: new URL(siteUrl),
   title: seo.title,
   description: seo.description,
   applicationName: brand.name,
   icons: { icon: '/icon.svg' },
-  alternates: { canonical: brand.url },
+  alternates: { canonical: siteUrl },
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    url: brand.url,
+    url: siteUrl,
     siteName: brand.name,
     title: seo.title,
     description: seo.description,
