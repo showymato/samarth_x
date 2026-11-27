@@ -205,3 +205,23 @@ Scope: the hero figure, the background behind it, the callouts/chips/bubble arou
 **Missing assets / owner options**
 - `/img/hero/aspirant-engineer.webp` and `/img/hero/aspirant-doctor.webp` were not supplied, so both figures are original layered SVG as the brief allows. To use photos or renders instead: identical canvas (289:695), identical pose/face/hair position, transparent background. Tell us and we'll swap the inline art for `<img>` (engineer `fetchpriority="high"`, doctor lazy).
 - Regenerate after editing the art: `npm run gen:aspirant && npm run gen:assets`.
+
+---
+
+## 2026-11-27 · Hero characters: owner-supplied engineer + doctor images
+
+- Uses the two supplied illustrations (originals kept in `source-art/hero/`, excluded from Vercel uploads): **engineer** (hard hat, safety goggles, hi-vis vest) and **doctor** (lab coat, stethoscope, scrubs), both arms-crossed busts.
+- `scripts/prep-hero-images.mjs` (`npm run gen:hero`) puts both on **one identical canvas**: the engineer defines it, and the doctor is scaled to the same face size (×0.80) and moved so her eyes sit exactly on the engineer's. At the 50% split the face continues cleanly (eyes, nose, mouth and goggles line up). It also adds the site's white sticker edge and exports WebP at 720×1038 (engineer 96 KB, loaded first with `fetchpriority="high"`; doctor 73 KB, low priority), plus `hero-aspirant.png` for the loader halftone.
+- **Centred character:** the figure now sits centred between the two text columns (`brand.cutoutCentred`) instead of in the gap between "samarth" and "x". It shows 95% of the bust above the yellow strip (`cutoutVisible`, was 76% for the full-length figure), sized to 62% of the space between the columns (`cutoutMaxCol`) so the chips and callouts have room. All three are in `lib/content.ts`.
+- Callouts, chips and the caption are re-plotted for the bust:
+  - lobes beside the head (right); heart and crossed arms (left)
+  - chips beside the head
+  - caption over the crossed arms
+- The selfie-specific bits are gone with the new art: the phone screen and its "covering face" callout (now "arms: crossed: the … mock is done."), the head tilt and the headphones. Clicking the character now switches engineer ⟷ doctor (same sweep as the JEE/NEET tags).
+- The generated SVG figures are retired; `scripts/gen-aspirant.mjs` now only makes the backgrounds, divider and animated pieces.
+- **Verified** at 1440 and 360:
+  - both images on the identical box (0 px)
+  - 50% = the figure's centre, with the knob on the curtain
+  - scroll 30vh → 50 and 70vh → doctor; keyboard, drag-snap and tap all work
+  - no overflow
+- **Please confirm** you have the rights to use these two illustrations commercially (the file names suggest they may come from a stock or AI-image service).

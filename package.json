@@ -8,6 +8,7 @@
     "start": "next start",
     "gen:posters": "node scripts/gen-posters.mjs",
     "gen:aspirant": "node scripts/gen-aspirant.mjs",
+    "gen:hero": "node scripts/prep-hero-images.mjs",
     "gen:assets": "node scripts/gen-assets.mjs",
     "gen:report": "node scripts/gen-sample-report.mjs"
   },

@@ -362,8 +362,6 @@ const out = path.join(process.cwd(), 'lib', 'art');
 fs.mkdirSync(out, { recursive: true });
 for (const f of fs.readdirSync(out)) if (f.endsWith('.svg')) fs.unlinkSync(path.join(out, f));
 const files = {
-  'fig-engineer.svg': engineer,
-  'fig-doctor.svg': doctor,
   'bg-engineer.svg': bgEngineer,
   'bg-doctor.svg': bgDoctor,
   'gear-a.svg': gearA,
@@ -380,8 +378,4 @@ for (const [f, svg] of Object.entries(files)) {
 }
 console.log(`total inline SVG: ${(total / 1024).toFixed(1)} KB`);
 
-// raster copy for the loader halftone + x-ray silhouette mask (engineer = the default state)
-await sharp(Buffer.from(engineer.replace(`width="${W}" height="${H}"`, `width="${W * 2}" height="${H * 2}"`)))
-  .png()
-  .toFile(path.join(process.cwd(), 'public', 'img', 'hero-aspirant.png'));
-console.log('wrote public/img/hero-aspirant.png');
+// the hero characters (and hero-aspirant.png) now come from scripts/prep-hero-images.mjs

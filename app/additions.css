@@ -52,7 +52,7 @@
 .hx__ch { will-change: transform; }
 
 /* ---------- hero: cut-out figure (same layout as the original) ---------- */
-.hx__me { aspect-ratio: 289 / 695; height: var(--meh, 90%); bottom: var(--meb, 0px); }
+.hx__me { aspect-ratio: 720 / 1038; height: var(--meh, 90%); bottom: var(--meb, 0px); }
 .hx__cut {
   position: absolute;
   inset: 0;
@@ -84,7 +84,7 @@
 .hx__layer--code .hx__line { pointer-events: none; }
 .xr__lab--phone b { color: var(--bp); }
 @media (max-width: 760px) {
-  .hx__me { height: auto; width: min(54vw, 230px); }
+  .hx__me { height: auto; width: min(72vw, 320px); }
   .hx__layer--code .xr__lab, .hx__layer--code .xr__tag { display: none; }
 }
 
@@ -624,3 +624,4 @@ html.lenis.lenis-smooth { scroll-behavior: auto !important; }
   .ax__cap, .fx-div { transition: none; }
 }
 .ax__win--doc { transform: translateX(100%); }
+.ax__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; user-select: none; -webkit-user-drag: none; }

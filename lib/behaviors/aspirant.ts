@@ -28,7 +28,6 @@ export function initAspirant() {
   const scan = qs('.fx-div__scan', div)!;
   const traces = qsa<SVGPathElement>('.fx-div__trace', div);
   const heads = qsa<SVGGElement>('.ax__head', ax);
-  const hps = qsa<SVGGElement>('.ax__hp', ax);
   const thumb = qs<SVGGElement>('.ax__thumb', ax)!;
   const says = qsa('[data-say]', hx);
 
@@ -220,19 +219,14 @@ export function initAspirant() {
   onResize(cull);
   site.cleanups.push(() => ScrollTrigger.removeEventListener('refresh', cull));
 
-  /* ── click / Enter: focus mode (headphones slide on, both futures) ── */
-  let focus = false;
-  const d = rm ? 0 : 1;
-  const setFocus = (onState: boolean) => {
-    focus = onState;
-    if (onState) gsap.fromTo(hps, { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55 * d, ease: 'back.out(1.6)' });
-    else gsap.to(hps, { y: -40, opacity: 0, duration: 0.35 * d, ease: 'power2.in' });
-  };
-  on(ax, 'click', () => setFocus(!focus));
+  /* ── click / Enter on the character: switch future (engineer ⟷ doctor) ── */
+  // reuse the handle's own JEE / NEET tags so the switch sweeps like the handle does
+  const toggle = () => qs<HTMLButtonElement>(x > 50 ? '.hx__tag--c' : '.hx__tag--d', hx)?.click();
+  on(ax, 'click', toggle);
   on(ax, 'keydown', (e: KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      setFocus(!focus);
+      toggle();
     }
   });
 

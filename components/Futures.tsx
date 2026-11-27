@@ -9,17 +9,20 @@ const SANS = 'Geist, Arial, sans-serif';
 const INK = '#1e1420';
 const ACCENT: Record<Side, string> = { eng: '#8b5cf6', doc: '#12a150' };
 
-// figure units (viewBox 289×695). Head points the callouts lead from.
+// figure units: the figure box is 289 wide (viewBox 289×VB_H, matching the image's 720×1038).
+// Anchor points are measured on the prepared images (both share one face position).
+const VB_H = 417;
 const RIGHT_CALLOUTS = [
-  { from: [96, 40], y: 6 },
-  { from: [126, 44], y: 40 },
-  { from: [131, 60], y: 74 },
+  { from: [146, 100], y: 62 }, // frontal lobe (forehead)
+  { from: [176, 120], y: 108 }, // occipital lobe (temple)
+  { from: [186, 154], y: 154 }, // cerebellum (behind the ear)
 ];
 const LEFT_CALLOUTS = [
-  { from: [78, 98], y: 118 }, // phone
-  { from: [100, 204], y: 172 }, // heart
+  { from: [126, 250], y: 236 }, // heart
+  { from: [118, 350], y: 318 }, // crossed arms
 ];
-const CHIP_Y = [228, 258, 288, 318];
+const CHIP_Y = [60, 92, 124, 156];
+const EDGE_L = -10; // right edge of the left-hand column
 
 /** naive wrap for SVG text: ~n characters per line */
 function wrap(t: string, n = 26) {
@@ -60,7 +63,7 @@ function Chip({ y, text, i, side }: { y: number; text: string; i: number; side: 
   const fills = ['#ff4f9a', ACCENT[side], INK, '#ffe45c'];
   const fg = i === 3 ? INK : '#fff';
   return (
-    <g transform={`translate(${6 - w} ${y})`}>
+    <g transform={`translate(${EDGE_L - w} ${y})`}>
       <g className="ax-p ax-p--chip ax-f" data-hide-only="">
         <rect x="2" y="3" width={w} height="20" rx="10" fill={INK} opacity=".14" />
         <rect width={w} height="20" rx="10" fill={fills[i]} stroke="#fff" strokeWidth="2.5" />
@@ -76,30 +79,19 @@ function Chip({ y, text, i, side }: { y: number; text: string; i: number; side: 
 export function FutureOverlay({ side }: { side: Side }) {
   const c = futures.callouts;
   return (
-    <svg className={`ax__over ax__over--${side}`} viewBox="0 0 289 695" overflow="visible" aria-hidden="true" focusable="false">
-      {/* phone screen (cycles every 2.5 s) */}
-      {futures.screens[side].map(([a, b], i) => (
-        <g className="ax__scr" data-ax-scr={i} key={i} opacity={i ? 0 : 1}>
-          <text x="111" y="68" textAnchor="middle" fontFamily={MONO} fontSize="6.6" letterSpacing=".4" fill="#ffb8dc">
-            {a.toUpperCase()}
-          </text>
-          <text x="111" y="86" textAnchor="middle" fontFamily={SANS} fontSize="11.5" fontWeight="700" fill="#fff">
-            {b}
-          </text>
-        </g>
-      ))}
-      {/* x-ray callouts: three lobes on the right, phone + heart on the left */}
+    <svg className={`ax__over ax__over--${side}`} viewBox={`0 0 289 ${VB_H}`} overflow="visible" aria-hidden="true" focusable="false">
+      {/* x-ray callouts: three lobes on the right, heart + arms on the left */}
       {RIGHT_CALLOUTS.map((p, i) => (
-        <Callout key={i} x={232} y={p.y} from={p.from} label={c[i][0]} text={side === 'eng' ? c[i][1] : c[i][2]} align="start" side={side} />
+        <Callout key={i} x={300} y={p.y} from={p.from} label={c[i][0]} text={side === 'eng' ? c[i][1] : c[i][2]} align="start" side={side} />
       ))}
       {LEFT_CALLOUTS.map((p, i) => (
-        <Callout key={i} x={-8} y={p.y} from={p.from} label={c[i + 3][0]} text={side === 'eng' ? c[i + 3][1] : c[i + 3][2]} align="end" side={side} />
+        <Callout key={i} x={EDGE_L} y={p.y} from={p.from} label={c[i + 3][0]} text={side === 'eng' ? c[i + 3][1] : c[i + 3][2]} align="end" side={side} />
       ))}
       {futures.chips[side].map((t, i) => (
         <Chip key={t + i} y={CHIP_Y[i]} text={t} i={i} side={side} />
       ))}
       <g className="ax-p ax-p--label" data-hide-only="">
-        <text x="6" y="360" textAnchor="end" fontFamily={MONO} fontSize="7.2" letterSpacing=".5" fill={ACCENT[side]}>
+        <text x={EDGE_L} y="196" textAnchor="end" fontFamily={MONO} fontSize="7.2" letterSpacing=".5" fill={ACCENT[side]}>
           {futures.label[side]}
         </text>
       </g>
@@ -112,7 +104,7 @@ export function FutureShared() {
   const caption = (t: string, side: Side) => {
     const w = textW(t, 8.4) + 22;
     return (
-      <g className={`ax__cap ax__cap--${side}`} transform={`translate(${6 - w} 382)`}>
+      <g className={`ax__cap ax__cap--${side}`} transform={`translate(${(289 - w) / 2} 352)`}>
         <rect width={w} height="22" rx="11" fill="#fff" stroke={ACCENT[side]} strokeWidth="1.6" />
         <circle cx="11" cy="11" r="3.4" fill={ACCENT[side]} />
         <text x="19" y="14.8" fontFamily={MONO} fontSize="8.4" fill={INK}>
@@ -122,12 +114,12 @@ export function FutureShared() {
     );
   };
   return (
-    <svg className="ax__shared" viewBox="0 0 289 695" overflow="visible" aria-hidden="true" focusable="false">
+    <svg className="ax__shared" viewBox={`0 0 289 ${VB_H}`} overflow="visible" aria-hidden="true" focusable="false">
       <g className="ax-p ax-p--caption" data-hide-only="">
         {caption(futures.caption.eng, 'eng')}
         {caption(futures.caption.doc, 'doc')}
       </g>
-      <g transform="translate(14 486)">
+      <g transform="translate(40 300)">
         <g className="ax__thumb" opacity="0">
           <circle r="19" fill="#fff" stroke="#8b5cf6" strokeWidth="3" />
           <text y="8" textAnchor="middle" fontSize="21">

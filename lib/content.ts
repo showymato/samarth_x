@@ -26,9 +26,17 @@ export const brand = {
   initials: 'AIR',
   // square avatar (stickers, polaroid) and the hero cut-out (transparent PNG, mirror-selfie pose)
   photo: '/img/avatar.jpg',
-  cutout: '/img/hero-aspirant.png',
-  cutoutW: 289,
-  cutoutH: 695,
+  // hero characters (owner-supplied art, prepared by scripts/prep-hero-images.mjs:
+  // same canvas, same face position, so the JEE ⟷ NEET curtain splits one face cleanly)
+  cutout: '/img/hero/aspirant-engineer.webp',
+  cutoutDoctor: '/img/hero/aspirant-doctor.webp',
+  cutoutW: 720,
+  cutoutH: 1038,
+  // how much of the figure shows above the yellow strip, and its width as a share of the
+  // space between the two text columns; centred between the columns
+  cutoutVisible: 0.95,
+  cutoutMaxCol: 0.62,
+  cutoutCentred: true,
 };
 
 // ─────────────────────────────────────────────────────────────
@@ -189,18 +197,14 @@ export const futures = {
     ['frontal lobe', 'derives it before memorising it.', 'remembers every NCERT line. even the footnotes.'],
     ['occipital lobe', 'spots a sign error from orbit.', 'spots the wrong option in 0.3 s.'],
     ['cerebellum', 'muscle memory: integration by parts.', 'muscle memory: Krebs cycle, in order.'],
-    ['phone', 'covering face, as is tradition.', 'covering face, as is tradition.'],
     ['heart ♡', 'runs on chai and 2 a.m. doubts.', '72 bpm. even during the mock.'],
+    ['arms', 'crossed: the sunday mock is done.', 'crossed: the NEET mock is done.'],
   ] as [string, string, string][],
   label: { eng: 'blueprint · 1 aspirant · 0 excuses', doc: 'x-ray · 206 bones · 0 excuses' },
   chips: {
     eng: ['42 STREAK', 'SUNDAY MOCK 214/300 ↑18', 'focus mode: ON', 'PV = nRT'],
     doc: ['42 STREAK', 'NEET MOCK 642/720 ↑31', 'focus mode: ON', 'ATP → ADP + Pᵢ'],
   },
-  screens: {
-    eng: [['streak', '🔥 42'], ['sunday mock', '214/300 ↑18'], ['reels', 'blocked 🚫'], ['mentor call', '7 pm']],
-    doc: [['streak', '🔥 42'], ['neet mock', '642/720 ↑31'], ['reels', 'blocked 🚫'], ['mentor call', '7 pm']],
-  } as Record<'eng' | 'doc', [string, string][]>,
   idLanyard: 'Dr. ___ (loading…)',
 };
 

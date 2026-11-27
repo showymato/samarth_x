@@ -235,16 +235,17 @@ export function initHero(): { prepare: () => DOMRect; play: (fromLoader: boolean
     // starting just under the name, with its cropped bottom tucked behind the yellow strip
     // full-length cut-out: head just under the name, legs hidden behind the yellow strip
     const ratio = person.cutoutW / person.cutoutH;
-    const visible = 0.76; // show down to just below the shorts
+    const visible = person.cutoutVisible ?? 0.76; // share of the figure above the yellow strip
     const figTop0 = baseline + desc * 0.3;
     let cardH = (sr.height - figTop0) / visible;
-    cardH = Math.min(cardH, (centerCol * 0.9) / ratio);
+    cardH = Math.min(cardH, (centerCol * (person.cutoutMaxCol ?? 0.9)) / ratio);
     const w = cardH * ratio;
     const meb = -(cardH * (1 - visible));
     const figTop = sr.height - meb - cardH;
     hx.style.setProperty('--meh', `${cardH.toFixed(1)}px`);
     // centre it in the gap between the words, but never on top of the side columns
-    const gapWord = (w1.right + w2.left) / 2 - hr.left;
+    // centred between the two text columns (or in the gap between the words)
+    const gapWord = person.cutoutCentred ? (left.right + right.left) / 2 - hr.left : (w1.right + w2.left) / 2 - hr.left;
     const minC = left.right - hr.left + w / 2 + 12;
     const maxC = right.left - hr.left - w / 2 - 12;
     const gapCenter = minC > maxC ? (minC + maxC) / 2 : clamp(gapWord, minC, maxC);
