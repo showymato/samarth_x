@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="fx__svg fx__svg--doc" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+<defs><pattern id="fx-plus" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M14 10v8M10 14h8" stroke="#12a150" stroke-opacity=".08" stroke-width="1.4"/></pattern><linearGradient id="fx__svg--doc-top" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf5f6"/><stop offset=".6" stop-color="#fbf5f6"/><stop offset="1" stop-color="#fbf5f6" stop-opacity="0"/></linearGradient></defs>
+<rect width="1440" height="900" fill="#fbf5f6"/>
+  <rect width="1440" height="900" fill="#12a150" fill-opacity=".02"/>
+  <rect width="1440" height="900" fill="url(#fx-plus)"/>
+  <g fill="none" stroke="#12a150" stroke-opacity=".3" stroke-width="1.4">
+    <ellipse cx="170" cy="560" rx="110" ry="80"/>
+    <circle cx="150" cy="552" r="30"/><circle cx="146" cy="548" r="9" fill="#12a150" fill-opacity=".12"/>
+    <ellipse cx="226" cy="590" rx="30" ry="13" transform="rotate(-18 226 590)"/>
+    <path d="M204 594c6-8 10 6 16-2s10 6 16-2s8 6 12 0" transform="rotate(-18 226 590)"/>
+    <circle cx="100" cy="600" r="5"/><circle cx="218" cy="520" r="4"/><circle cx="240" cy="550" r="3"/>
+    <path d="M1180 690l40-23 40 23v46l-40 23-40-23z"/>
+    <path d="M1260 690l22-13M1260 736l22 13M1180 736l-22 13M1220 667v-22"/>
+  </g>
+  <g fill="#12a150" fill-opacity=".5">
+    <text x="1214" y="675" font-family="'Geist Mono', Consolas, monospace" font-size="16" transform="rotate(0 1214 675)">O</text>
+    <text x="1286" y="676" font-family="'Geist Mono', Consolas, monospace" font-size="13" transform="rotate(0 1286 676)">OH</text><text x="1286" y="760" font-family="'Geist Mono', Consolas, monospace" font-size="13" transform="rotate(0 1286 760)">OH</text><text x="1124" y="760" font-family="'Geist Mono', Consolas, monospace" font-size="13" transform="rotate(0 1124 760)">HO</text><text x="1196" y="640" font-family="'Geist Mono', Consolas, monospace" font-size="13" transform="rotate(0 1196 640)">CH₂OH</text>
+  </g>
+  <g fill="#12a150" fill-opacity=".45">
+    <text x="1040" y="150" font-family="'Momo Signature', 'Segoe Script', cursive" font-size="30" transform="rotate(-3 1040 150)">ATP</text>
+    <text x="240" y="690" font-family="'Momo Signature', 'Segoe Script', cursive" font-size="26" transform="rotate(2 240 690)">Krebs cycle</text>
+    <text x="640" y="820" font-family="'Momo Signature', 'Segoe Script', cursive" font-size="26" transform="rotate(-2 640 820)">Ksp</text>
+    <text x="1100" y="330" font-family="'Geist Mono', Consolas, monospace" font-size="22" transform="rotate(3 1100 330)">NCERT pg. 128</text>
+  </g>
+<rect width="1440" height="96" fill="url(#fx__svg--doc-top)"/>
+</svg>

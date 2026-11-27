@@ -574,16 +574,53 @@ html.lenis.lenis-smooth { scroll-behavior: auto !important; }
 /* hero bottom strip keeps the original yellow (and the loader bar that turns into it) */
 .hx__layer--design .worked, .ld__bar { background: #ffe45c; }
 
-/* ---------- hero: sticker-collage aspirant (inline SVG, the one approved UI change) ---------- */
+/* ---------- hero: "two futures, one aspirant" (engineer ⟷ doctor curtain) ----------
+   The curtain is pure transforms: each side sits in a window that slides one way while its
+   content slides back the other way, so dragging never repaints the art (no clip-path). */
 .ax { display: block; cursor: pointer; outline: none; -webkit-tap-highlight-color: transparent; }
 .ax:focus-visible { outline: 2px dashed var(--blue); outline-offset: 6px; border-radius: 12px; }
-.ax > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-.ax__fig { will-change: transform; }
-.ax .ax-s, .ax .ax-f, .ax .ax__head, .ax .ax__hp, .ax .ax__pill, .ax .ax__thumb, .ax .ax__pend, .ax .ax__orb { transform-box: fill-box; transform-origin: 50% 50%; }
+.ax__win { position: absolute; top: -50%; bottom: -50%; left: -60%; right: -60%; overflow: hidden; pointer-events: none; will-change: transform; }
+.ax__in { position: absolute; top: 25%; height: 50%; left: 27.2727%; width: 45.4545%; will-change: transform; }
+.ax__art, .ax__art > svg, .ax__over, .ax__shared { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.ax__shared { pointer-events: none; }
+.ax__fig { filter: drop-shadow(0 22px 26px rgba(48, 38, 22, .16)); }
+.ax .ax-f, .ax .ax__head, .ax .ax__hp, .ax .ax__thumb { transform-box: fill-box; transform-origin: 50% 50%; }
 .ax .ax__head { transform-origin: 50% 100%; }
-.ax .ax__pend { transform-origin: 50% 0%; }
-/* perf: the inherited drop-shadows would re-blur the whole box every frame while stickers float.
-   The character carries its own shadow on its own layer instead; stickers draw theirs as shapes. */
+.ax__cap { transition: opacity .3s ease; }
+.ax__cap--doc, .ax[data-side="doc"] .ax__cap--eng { opacity: 0; }
+.ax[data-side="doc"] .ax__cap--doc { opacity: 1; }
 .hx__cut:has(.ax), .ax.hx__photo { filter: none; }
-.ax__fig { filter: drop-shadow(0 22px 26px rgba(48, 38, 22, .16)); transform: translateZ(0); }
 
+/* the duplicate blueprint copy of the hero text is no longer revealed: the curtain now
+   only swaps the worlds around the figure, so the heading and copy stay identical */
+.hx__layer--code { visibility: hidden; }
+
+.fx { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.fx__layer, .fx__win, .fx__in { position: absolute; inset: 0; }
+.fx__win { overflow: hidden; will-change: transform; transform: translateX(100vw); }
+.fx__in { will-change: transform; }
+.fx__par { position: absolute; inset: -12px; will-change: transform; }
+.fx__bg, .fx__bg > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.fx__piece { position: absolute; display: block; will-change: transform; }
+.fx__piece > svg { display: block; width: 100%; height: auto; }
+.fx__piece--gear-a { left: 31%; top: 40%; width: 92px; }
+.fx__piece--gear-b { left: calc(31% + 80px); top: calc(40% + 66px); width: 58px; }
+.fx__piece--heart { left: 33%; top: 46%; width: 84px; }
+.fx__piece--helix { left: 92%; top: 16%; width: 44px; height: 117px; overflow: hidden; }
+.fx__helix { position: absolute; left: 0; top: 0; width: 44px; will-change: transform; }
+.fx__helix > svg { display: block; width: 44px; height: auto; }
+.fx-div { position: absolute; top: 0; bottom: 0; left: 0; width: 60px; margin-left: -30px; will-change: transform; opacity: 0; transition: opacity .3s; }
+.fx-div.is-on { opacity: 1; }
+.fx-div__art, .fx-div__art > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.fx-div__trace { stroke-dasharray: 70 830; }
+.fx-div__scan { position: absolute; inset: 0 18px; background: linear-gradient(180deg, transparent, rgba(255, 255, 255, .95) 45%, rgba(255, 184, 220, .9) 55%, transparent); opacity: 0; }
+.fx-div__spark { position: absolute; left: 50%; top: var(--ky, 42%); width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: radial-gradient(circle, #fff 0 25%, var(--pink) 30%, transparent 70%); }
+@media (max-width: 760px) {
+  .fx__piece--gear-a, .fx__piece--gear-b, .fx__piece--heart { top: 30%; left: 4%; }
+  .fx__piece--gear-b { left: calc(4% + 80px); top: calc(30% + 66px); }
+  .fx__piece--helix { left: 86%; top: 34%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ax__cap, .fx-div { transition: none; }
+}
+.ax__win--doc { transform: translateX(100%); }

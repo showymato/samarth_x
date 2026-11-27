@@ -1,178 +1,232 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { qs, qsa, on, onResize, reducedMotion, isFinePointer, whileVisible, site } from './utils';
+import { futures, hero as heroCopy } from '@/lib/content';
 
 /*
-  Hero "sticker-collage aspirant".
-  idle: breathing bob + stickers floating · scroll: stickers peel off outward (scrubbed, so they settle back)
-  cursor: head tilts toward the pointer (desktop) · click: focus mode (headphones, pill, reels flicked away)
-  hover on any pricing CTA: thumbs-up · reduced motion: static collage.
+  Hero "two futures, one aspirant": engineer (x = 100) ⟷ doctor (x = 0).
+  lib/behaviors/hero.ts owns the slider and broadcasts 'hx:x'. Here we move the worlds:
+  - curtain: windows slide one way, their content slides back (transforms only, no repaint)
+  - divider (circuit ⟷ ECG) follows the handle; a scan flash when it crosses the figure's centre
+  - caption crossfades at 50%; at exactly 50% the bubble asks "why not both?"
+  - idle: bob, chips float, gears turn, heart beats at 72 bpm, helix twists (each side pauses when hidden)
+  - desktop: background parallax + head tilt toward the cursor
+  - click: focus mode (headphones) · pricing CTA hover: thumbs-up · reduced motion: static
 */
 export function initAspirant() {
   const ax = qs('[data-ax]');
   if (!ax) return;
   const hx = ax.closest('.hx') as HTMLElement;
   const rm = reducedMotion();
-  const fig = qs<SVGSVGElement>('.ax__fig', ax)!;
-  const head = qs<SVGGElement>('.ax__head', ax)!;
-  const hp = qs<SVGGElement>('.ax__hp', ax)!;
-  const pill = qs<SVGGElement>('.ax__pill', ax)!;
+  const fine = isFinePointer();
+
+  const win = { eng: qs('[data-ax-win="eng"]', ax)!, doc: qs('[data-ax-win="doc"]', ax)! };
+  const inner = { eng: qs('.ax__in', win.eng)!, doc: qs('.ax__in', win.doc)! };
+  const bgWin = qs('[data-fx-win="doc"]', hx)!;
+  const bgIn = qs('.fx__in', bgWin)!;
+  const div = qs('[data-fx-div]', hx)!;
+  const scan = qs('.fx-div__scan', div)!;
+  const traces = qsa<SVGPathElement>('.fx-div__trace', div);
+  const heads = qsa<SVGGElement>('.ax__head', ax);
+  const hps = qsa<SVGGElement>('.ax__hp', ax);
   const thumb = qs<SVGGElement>('.ax__thumb', ax)!;
-  const reels = qs<SVGGElement>('.ax-s--reels', ax)!;
-  const screens = qsa<SVGGElement>('[data-ax-scr]', ax);
-  const stickers = qsa<SVGGElement>('.ax-s', ax);
+  const says = qsa('[data-say]', hx);
 
-  /* ── never cover hero text: hide any sticker/doodle that would overlap it at this width ── */
-  const pieces = qsa<SVGGElement>('.ax__stk > g:not(.ax-d):not(.ax__pill):not(:has(.ax__thumb)), .ax-d > g', ax);
-  const words = () =>
-    qsa('.hx__layer--design :is(.hx__left, .hx__right, .hx__bar) :is(p, a, button), .hx__layer--design .hx__ch', hx)
-      .map((el) => el.getBoundingClientRect())
-      .filter((b) => b.width && b.height);
-  const M = 14; // covers the idle float (±4 units) + rotation
-  const hits = (g: Element, text: DOMRect[]) => {
-    const a = g.getBoundingClientRect();
-    return text.some((b) => a.left - M < b.right && a.right + M > b.left && a.top - M < b.bottom && a.bottom + M > b.top);
+  /* ── the curtain ── */
+  let x = 100;
+  let side: 'eng' | 'doc' = 'eng';
+  let lastCentreSide = 1;
+  const apply = () => {
+    const h = hx.getBoundingClientRect();
+    const f = ax.getBoundingClientRect();
+    // the handle's on-screen position (hero.ts maps the slider so 50 = the figure's centre)
+    const D = h.left + (h.width * (parseFloat(hx.style.getPropertyValue('--x')) || x)) / 100;
+    // figure windows span the figure box ±60% wide (see .ax__win)
+    const L0 = f.left - 0.6 * f.width;
+    const WW = 2.2 * f.width;
+    const t = gsap.utils.clamp(0, WW, D - L0);
+    const u = gsap.utils.clamp(0, WW, L0 + WW - D);
+    gsap.set(win.doc, { x: t });
+    gsap.set(inner.doc, { x: -t });
+    gsap.set(win.eng, { x: -u });
+    gsap.set(inner.eng, { x: u });
+    // background: the doctor world covers everything right of the handle
+    const tb = gsap.utils.clamp(0, h.width, D - h.left);
+    gsap.set(bgWin, { x: tb });
+    gsap.set(bgIn, { x: -tb });
+    gsap.set(div, { x: D - h.left });
+    div.classList.toggle('is-on', x > 0.5 && x < 99.5);
+    // scan flash when the curtain crosses the figure's centre
+    const centreSide = Math.sign(D - (f.left + f.width / 2)) || 1;
+    if (centreSide !== lastCentreSide && x > 0.5 && x < 99.5 && !rm) {
+      gsap.fromTo(scan, { opacity: 0.95, scaleY: 0.2 }, { opacity: 0, scaleY: 1, duration: 0.15, ease: 'power1.out' });
+    }
+    lastCentreSide = centreSide;
+    // which future is "current" (caption, aria, paused sets)
+    const now = x < 50 ? 'doc' : 'eng';
+    if (now !== side) {
+      side = now;
+      ax.dataset.side = side;
+      ax.setAttribute('aria-label', futures.aria[side]);
+    }
+    // exactly 50%: "why not both? ask your mentor."
+    const both = Math.abs(x - 50) < 1.5;
+    if (both && hx.dataset.both !== '1') {
+      hx.dataset.both = '1';
+      says.forEach((m) => (m.textContent = futures.bubbleBoth));
+    } else if (!both && hx.dataset.both === '1') {
+      delete hx.dataset.both;
+      says.forEach((m) => (m.textContent = heroCopy.bubble));
+    }
+    syncPlay();
   };
-  // placement is "translate(x y) rotate(r)": slide a colliding piece inward onto the figure, hide only as a last resort
-  const cull = () => {
-    const text = words();
-    pieces.forEach((g) => {
-      const orig = (g.dataset.t ??= g.getAttribute('transform') ?? '');
-      g.setAttribute('transform', orig);
-      g.style.visibility = '';
-      if (!hits(g, text)) return;
-      const m = orig.match(/translate\(([-\d.]+)[ ,]+([-\d.]+)\)(.*)/);
-      if (m) {
-        const x = +m[1];
-        const inward = x < 144 ? 1 : -1;
-        for (let step = 1; step <= 10; step++) {
-          g.setAttribute('transform', `translate(${x + inward * step * 10} ${m[2]})${m[3]}`);
-          if (!hits(g, text)) return;
-        }
-        g.setAttribute('transform', orig);
-      }
-      g.style.visibility = 'hidden';
-    });
-  };
-  // once fonts are in, and again after the hero intro has settled
-  (document.fonts?.ready ?? Promise.resolve()).then(() => {
-    requestAnimationFrame(cull);
-    window.setTimeout(cull, 2600);
-    window.setTimeout(cull, 5200);
-    window.setTimeout(cull, 8000); // loader (~3.5 s) + hero intro have fully settled
-  });
-  ScrollTrigger.addEventListener('refresh', cull);
-  onResize(cull);
-  site.cleanups.push(() => ScrollTrigger.removeEventListener('refresh', cull));
+  on(hx, 'hx:x' as keyof HTMLElementEventMap, ((e: CustomEvent<number>) => {
+    x = e.detail;
+    apply();
+  }) as EventListener);
+  onResize(apply);
+  ScrollTrigger.addEventListener('refresh', apply);
+  site.cleanups.push(() => ScrollTrigger.removeEventListener('refresh', apply));
+  requestAnimationFrame(apply);
 
-  /* ── phone screen: cycles every 2.5 s while the hero is on screen ── */
-  let k = 0;
-  let cycle = 0;
-  const nextScreen = () => {
-    const prev = screens[k];
-    k = (k + 1) % screens.length;
-    gsap.to(prev, { opacity: 0, y: -6, duration: 0.3, ease: 'power2.in' });
-    gsap.fromTo(screens[k], { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.35, delay: 0.25, ease: 'power2.out' });
-  };
-
-  /* ── idle loops (paused off-screen) ── */
-  const idle: gsap.core.Tween[] = [];
+  /* ── idle loops: one set per side, each paused while its side is hidden or the hero is off-screen ── */
+  const sets: Record<'eng' | 'doc' | 'both', gsap.core.Tween[]> = { eng: [], doc: [], both: [] };
   if (!rm) {
-    idle.push(gsap.to(fig, { y: -2.5, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: -1 }));
-    qsa<SVGGElement>('.ax-f', ax).forEach((f, i) =>
-      idle.push(
-        gsap.to(f, {
-          y: i % 2 ? 4 : -4,
-          rotation: i % 2 ? 1.5 : -1.5,
-          duration: 2.4 + (i % 4) * 0.55,
-          delay: i * 0.17,
-          ease: 'sine.inOut',
-          yoyo: true,
-          repeat: -1,
-        }),
-      ),
+    sets.both.push(gsap.to(qsa('.ax__fig', ax), { y: -2.5, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: -1 }));
+    qsa<SVGGElement>('.ax-f', ax).forEach((g, i) =>
+      sets.both.push(gsap.to(g, { y: i % 2 ? 3 : -3, duration: 2.4 + (i % 4) * 0.5, delay: i * 0.15, ease: 'sine.inOut', yoyo: true, repeat: -1 })),
     );
-    const pend = qs('.ax__pend', ax);
-    if (pend) idle.push(gsap.fromTo(pend, { rotation: -16 }, { rotation: 16, duration: 1.1, ease: 'sine.inOut', yoyo: true, repeat: -1 }));
-    const orb = qs('.ax__orb', ax);
-    if (orb) idle.push(gsap.to(orb, { rotation: 360, duration: 14, ease: 'none', repeat: -1 }));
-    idle.forEach((t) => t.pause());
+    sets.both.push(
+      gsap.to(traces, { strokeDashoffset: -900, duration: 3.2, ease: 'none', repeat: -1 }),
+    );
+    const ga = qs('.fx__piece--gear-a', hx);
+    const gb = qs('.fx__piece--gear-b', hx);
+    if (ga) sets.eng.push(gsap.to(ga, { rotation: 360, duration: 16, ease: 'none', repeat: -1 }));
+    if (gb) sets.eng.push(gsap.to(gb, { rotation: -360, duration: 16 * (8 / 12), ease: 'none', repeat: -1 }));
+    const heart = qs('.fx__piece--heart', hx);
+    // 72 bpm: one beat every 0.833 s (a quick double thump, then rest)
+    if (heart)
+      sets.doc.push(
+        gsap.to(heart, {
+          keyframes: [{ scale: 1.09, duration: 0.09 }, { scale: 1, duration: 0.12 }, { scale: 1.05, duration: 0.08 }, { scale: 1, duration: 0.543 }],
+          repeat: -1,
+          ease: 'sine.inOut',
+        }),
+      );
+    const helix = qs('.fx__helix', hx);
+    if (helix) {
+      const period = () => (helix.getBoundingClientRect().height || 176) / 3;
+      sets.doc.push(gsap.fromTo(helix, { y: 0 }, { y: () => -period(), duration: 2.6, ease: 'none', repeat: -1 }));
+    }
+    Object.values(sets).flat().forEach((t) => t.pause());
+  }
+  let inView = false;
+  function syncPlay() {
+    const play = (list: gsap.core.Tween[], onState: boolean) => list.forEach((t) => (onState ? t.play() : t.pause()));
+    play(sets.both, inView);
+    play(sets.eng, inView && x > 0.5);
+    play(sets.doc, inView && x < 99.5);
   }
   whileVisible(
     hx,
     () => {
       inView = true;
-      idle.forEach((t) => t.play());
-      if (!rm && !cycle) cycle = window.setInterval(nextScreen, 2500);
+      syncPlay();
+      startScreens();
     },
     () => {
       inView = false;
-      idle.forEach((t) => t.pause());
-      window.clearInterval(cycle);
-      cycle = 0;
+      syncPlay();
+      stopScreens();
     },
   );
-  site.cleanups.push(() => window.clearInterval(cycle));
 
-  /* ── perf: idle floats rest while the page is scrolling (the peel already moves the stickers) ── */
-  let inView = false;
-  let rest = 0;
-  if (!rm) {
-    on(window, 'scroll', () => {
-      if (!inView) return;
-      idle.forEach((t) => t.pause());
-      window.clearTimeout(rest);
-      rest = window.setTimeout(() => inView && idle.forEach((t) => t.play()), 180);
-    }, { passive: true });
+  /* ── phone screens: both phones cycle together every 2.5 s ── */
+  const groups = [0, 1, 2, 3].map((i) => qsa<SVGGElement>(`[data-ax-scr="${i}"]`, ax));
+  let k = 0;
+  let cycle = 0;
+  const nextScreen = () => {
+    const prev = groups[k];
+    k = (k + 1) % groups.length;
+    gsap.to(prev, { opacity: 0, y: -6, duration: 0.3, ease: 'power2.in' });
+    gsap.fromTo(groups[k], { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.35, delay: 0.25, ease: 'power2.out' });
+  };
+  function startScreens() {
+    if (!rm && !cycle) cycle = window.setInterval(nextScreen, 2500);
   }
-
-  /* ── scroll: stickers peel off and drift outward; scrubbed, so they settle back on scroll-up ── */
-  if (!rm) {
-    const tl = gsap.timeline({
-      scrollTrigger: { trigger: hx, start: 'top top', end: 'bottom top', scrub: 0.6 },
-    });
-    stickers.forEach((s, i) => {
-      const dir = Number(s.dataset.dir) || 1;
-      const depth = Number(s.dataset.depth) || 1;
-      tl.to(s, { x: dir * 70 * depth, y: -60 * depth, rotation: dir * (8 + (i % 3) * 5), ease: 'none' }, 0);
-    });
+  function stopScreens() {
+    window.clearInterval(cycle);
+    cycle = 0;
   }
+  site.cleanups.push(stopScreens);
 
-  /* ── cursor: head tilts a few degrees toward the pointer (desktop only) ── */
-  if (!rm && isFinePointer()) {
-    const tilt = gsap.quickTo(head, 'rotation', { duration: 0.6, ease: 'power3.out' });
+  /* ── desktop: background parallax (4–8 px) + the head tilts toward the cursor ── */
+  if (!rm && fine) {
+    const par = qsa('[data-fx-par]', hx).map((el, i) => ({
+      x: gsap.quickTo(el, 'x', { duration: 0.8, ease: 'power3.out' }),
+      y: gsap.quickTo(el, 'y', { duration: 0.8, ease: 'power3.out' }),
+      depth: i ? 8 : 5,
+    }));
+    const tilts = heads.map((h) => gsap.quickTo(h, 'rotation', { duration: 0.6, ease: 'power3.out' }));
     let raf = 0;
     on(hx, 'pointermove', (e: PointerEvent) => {
       if (raf) return;
       raf = requestAnimationFrame(() => {
         raf = 0;
+        const nx = e.clientX / window.innerWidth - 0.5;
+        const ny = e.clientY / window.innerHeight - 0.5;
+        par.forEach((p) => {
+          p.x(-nx * p.depth * 2);
+          p.y(-ny * p.depth * 2);
+        });
         const r = ax.getBoundingClientRect();
-        const cx = r.left + r.width * 0.38;
-        const cy = r.top + r.height * 0.1;
-        const dx = (e.clientX - cx) / window.innerWidth;
-        const dy = (e.clientY - cy) / window.innerHeight;
-        tilt(gsap.utils.clamp(-5, 5, dx * 10 + dy * 2));
+        const dx = (e.clientX - (r.left + r.width * 0.38)) / window.innerWidth;
+        const dy = (e.clientY - (r.top + r.height * 0.1)) / window.innerHeight;
+        tilts.forEach((t) => t(gsap.utils.clamp(-5, 5, dx * 10 + dy * 2)));
       });
     });
-    on(hx, 'pointerleave', () => tilt(0));
+    on(hx, 'pointerleave', () => {
+      par.forEach((p) => {
+        p.x(0);
+        p.y(0);
+      });
+      tilts.forEach((t) => t(0));
+    });
   }
 
-  /* ── click: focus mode on / off ── */
+  /* ── never cover hero text: hide any callout/chip/label that would overlap it at this width ── */
+  const pieces = qsa<SVGGElement>('.ax-p', ax);
+  const words = () =>
+    qsa('.hx__layer--design :is(.hx__left, .hx__right, .hx__bar) :is(p, a, button), .hx__layer--design .hx__ch, .hx__layer--design .hx__say', hx)
+      .map((el) => el.getBoundingClientRect())
+      .filter((b) => b.width && b.height);
+  const M = 10;
+  const cull = () => {
+    const text = words();
+    pieces.forEach((g) => {
+      g.style.visibility = '';
+      const a = g.getBoundingClientRect();
+      const hit = text.some((b) => a.left - M < b.right && a.right + M > b.left && a.top - M < b.bottom && a.bottom + M > b.top);
+      if (hit) g.style.visibility = 'hidden';
+    });
+  };
+  (document.fonts?.ready ?? Promise.resolve()).then(() => {
+    requestAnimationFrame(cull);
+    window.setTimeout(cull, 2600);
+    window.setTimeout(cull, 5200);
+    window.setTimeout(cull, 8000); // loader + hero intro have fully settled
+  });
+  ScrollTrigger.addEventListener('refresh', cull);
+  onResize(cull);
+  site.cleanups.push(() => ScrollTrigger.removeEventListener('refresh', cull));
+
+  /* ── click / Enter: focus mode (headphones slide on, both futures) ── */
   let focus = false;
   const d = rm ? 0 : 1;
   const setFocus = (onState: boolean) => {
     focus = onState;
-    ax.setAttribute('aria-label', onState ? 'Illustrated student taking a selfie, surrounded by study stickers. Focus mode is on.' : 'Illustrated student taking a selfie, surrounded by study stickers.');
-    if (onState) {
-      gsap.fromTo(hp, { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55 * d, ease: 'back.out(1.6)' });
-      gsap.fromTo(pill, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.45 * d, delay: 0.15 * d, ease: 'back.out(2)' });
-      gsap.to(reels, { x: 420, y: -160, rotation: 220, opacity: 0, duration: 0.7 * d, ease: 'power2.in' });
-    } else {
-      gsap.to(hp, { y: -40, opacity: 0, duration: 0.35 * d, ease: 'power2.in' });
-      gsap.to(pill, { opacity: 0, scale: 0.6, duration: 0.3 * d });
-      // back to wherever the scroll scrub wants it
-      gsap.to(reels, { x: 0, y: 0, rotation: 0, opacity: 1, duration: 0.6 * d, ease: 'back.out(1.4)' });
-    }
+    if (onState) gsap.fromTo(hps, { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55 * d, ease: 'back.out(1.6)' });
+    else gsap.to(hps, { y: -40, opacity: 0, duration: 0.35 * d, ease: 'power2.in' });
   };
   on(ax, 'click', () => setFocus(!focus));
   on(ax, 'keydown', (e: KeyboardEvent) => {

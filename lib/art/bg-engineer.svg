@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="fx__svg fx__svg--eng" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+<defs><pattern id="fx-grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#8b5cf6" stroke-opacity=".06" stroke-width="1"/></pattern>
+   <pattern id="fx-grid-lg" width="120" height="120" patternUnits="userSpaceOnUse"><path d="M120 0H0V120" fill="none" stroke="#8b5cf6" stroke-opacity=".08" stroke-width="1"/></pattern><linearGradient id="fx__svg--eng-top" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf5f6"/><stop offset=".6" stop-color="#fbf5f6"/><stop offset="1" stop-color="#fbf5f6" stop-opacity="0"/></linearGradient></defs>
+<rect width="1440" height="900" fill="#fbf5f6"/>
+  <rect width="1440" height="900" fill="#f6f0ff" fill-opacity=".5"/>
+  <rect width="1440" height="900" fill="url(#fx-grid)"/>
+  <rect width="1440" height="900" fill="url(#fx-grid-lg)"/>
+  <g fill="none" stroke="#8b5cf6" stroke-opacity=".3" stroke-width="1.4">
+    <path d="M90 560Q300 250 520 560" stroke-dasharray="3 7"/>
+    <path d="M90 560L170 440" stroke-width="2"/><path d="M170 440l-12 3 6 -11z" fill="#8b5cf6" fill-opacity=".3"/>
+    <path d="M90 560h80"/><path d="M128 560A38 38 0 0 0 112 528"/>
+    <path d="M1080 820L1360 820L1360 660Z"/>
+    <g transform="rotate(-29.7 1230 742)"><rect x="1206" y="716" width="48" height="30"/><path d="M1230 716v-46M1230 670l-5 9h10z"/><path d="M1230 746v40"/></g>
+    <path d="M1440 430H1330V500H1250V560H1190"/>
+    <path d="M1290 500l6-10 8 20 8-20 8 20 6-10"/>
+    <circle cx="1330" cy="430" r="4" fill="#8b5cf6" fill-opacity=".3"/><circle cx="1250" cy="500" r="4" fill="#8b5cf6" fill-opacity=".3"/><circle cx="1190" cy="560" r="4" fill="#8b5cf6" fill-opacity=".3"/>
+    <path d="M1000 160h260M1000 150v20M1260 150v20M1000 160l12-5v10zM1260 160l-12-5v10z"/>
+    <path d="M70 250h220M70 240v20M290 240v20M70 250l12-5v10zM290 250l-12-5v10z"/>
+  </g>
+  <g fill="#8b5cf6" fill-opacity=".42">
+    <text x="1080" y="146" font-family="'Geist Mono', Consolas, monospace" font-size="18" transform="rotate(0 1080 146)">rank: TBD</text>
+    <text x="80" y="236" font-family="'Geist Mono', Consolas, monospace" font-size="18" transform="rotate(0 80 236)">Δ effort → Δ rank</text>
+    <text x="240" y="640" font-family="'Momo Signature', 'Segoe Script', cursive" font-size="30" transform="rotate(-4 240 640)">F = ma</text>
+    <text x="1120" y="300" font-family="'Momo Signature', 'Segoe Script', cursive" font-size="28" transform="rotate(3 1120 300)">∮E·dA = Q/ε₀</text>
+    <text x="620" y="820" font-family="'Momo Signature', 'Segoe Script', cursive" font-size="26" transform="rotate(-2 620 820)">PV = nRT</text>
+    <text x="820" y="120" font-family="'Momo Signature', 'Segoe Script', cursive" font-size="26" transform="rotate(2 820 120)">∫₀<tspan baseline-shift="super" font-size="16">π</tspan> sin x dx = 2</text>
+    <text x="196" y="600" font-family="'Momo Signature', 'Segoe Script', cursive" font-size="18" transform="rotate(0 196 600)">v₀</text><text x="150" y="552" font-family="'Momo Signature', 'Segoe Script', cursive" font-size="18" transform="rotate(0 150 552)">θ</text>
+  </g>
+<rect width="1440" height="96" fill="url(#fx__svg--eng-top)"/>
+</svg>

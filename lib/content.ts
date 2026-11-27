@@ -173,6 +173,37 @@ export const hero = {
   gateNote: ['gate 2028 · no delays reported', 'by your mentor'],
 };
 
+// "Two futures, one aspirant": the hero curtain (JEE engineer ⟷ NEET doctor).
+// All numbers are illustrative mock-UI values, not result claims.
+export const futures = {
+  handle: { a: 'JEE', b: 'NEET', aria: 'Switch between future engineer and future doctor' },
+  aria: {
+    eng: 'Illustrated student taking a selfie as a future engineer, surrounded by study notes.',
+    doc: 'Illustrated student taking a selfie as a future doctor, surrounded by study notes.',
+  },
+  hint: ['drag →', 'see the doctor'],
+  caption: { eng: 'future engineer · JEE', doc: 'future doctor · NEET' },
+  bubbleBoth: 'why not both? ask your mentor.',
+  // [spot, engineer, doctor]
+  callouts: [
+    ['frontal lobe', 'derives it before memorising it.', 'remembers every NCERT line. even the footnotes.'],
+    ['occipital lobe', 'spots a sign error from orbit.', 'spots the wrong option in 0.3 s.'],
+    ['cerebellum', 'muscle memory: integration by parts.', 'muscle memory: Krebs cycle, in order.'],
+    ['phone', 'covering face, as is tradition.', 'covering face, as is tradition.'],
+    ['heart ♡', 'runs on chai and 2 a.m. doubts.', '72 bpm. even during the mock.'],
+  ] as [string, string, string][],
+  label: { eng: 'blueprint · 1 aspirant · 0 excuses', doc: 'x-ray · 206 bones · 0 excuses' },
+  chips: {
+    eng: ['42 STREAK', 'SUNDAY MOCK 214/300 ↑18', 'focus mode: ON', 'PV = nRT'],
+    doc: ['42 STREAK', 'NEET MOCK 642/720 ↑31', 'focus mode: ON', 'ATP → ADP + Pᵢ'],
+  },
+  screens: {
+    eng: [['streak', '🔥 42'], ['sunday mock', '214/300 ↑18'], ['reels', 'blocked 🚫'], ['mentor call', '7 pm']],
+    doc: [['streak', '🔥 42'], ['neet mock', '642/720 ↑31'], ['reels', 'blocked 🚫'], ['mentor call', '7 pm']],
+  } as Record<'eng' | 'doc', [string, string][]>,
+  idLanyard: 'Dr. ___ (loading…)',
+};
+
 // halftone loading screen: DPI steps and what it says at each one
 export const loader = {
   steps: [

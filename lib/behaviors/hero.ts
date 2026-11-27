@@ -15,14 +15,40 @@ export function initHero(): { prepare: () => DOMRect; play: (fromLoader: boolean
   const hint = qs('.hx__hint', hx)!;
   const isMobile = () => window.matchMedia(MOBILE).matches;
 
-  /* ───────── the design ⇄ code slider ───────── */
+  /* ───────── the JEE ⇄ NEET curtain (was design ⇄ code) ─────────
+     100 = future engineer (default), 0 = future doctor. Every change is broadcast as
+     'hx:x' so lib/behaviors/aspirant.ts can move the two worlds. */
   const state = { x: 100 };
+  let userMoved = false; // once the visitor drags/keys/taps, scroll stops driving the curtain
+  // 50 always lands on the figure's centre (it isn't at the hero's centre), so at 50% the
+  // aspirant is split exactly down the middle; 0–50 and 50–100 stretch over each side.
+  // --x is the handle's on-screen position (% of the hero); state.x is the slider value.
+  let centre = 50;
+  const measureCentre = () => {
+    const me = qs('.hx__layer--design .hx__me', hx);
+    const h = hx.getBoundingClientRect();
+    if (!me || !h.width) return;
+    const m = me.getBoundingClientRect();
+    centre = clamp(((m.left + m.width / 2 - h.left) / h.width) * 100, 15, 85);
+  };
+  const toPos = (v: number) => (v >= 50 ? centre + ((v - 50) / 50) * (100 - centre) : (v / 50) * centre);
+  const fromPos = (p: number) => (p >= centre ? 50 + ((p - centre) / (100 - centre)) * 50 : (p / centre) * 50);
   const setX = (v: number) => {
     state.x = clamp(v, 0, 100);
-    hx.style.setProperty('--x', state.x.toFixed(2));
+    hx.style.setProperty('--x', toPos(state.x).toFixed(2));
     split.setAttribute('aria-valuenow', String(Math.round(state.x)));
+    split.setAttribute('aria-valuetext', state.x > 50 ? 'future engineer' : state.x < 50 ? 'future doctor' : 'both');
+    hx.dispatchEvent(new CustomEvent('hx:x', { detail: state.x }));
   };
   setX(100);
+  onResize(() => {
+    measureCentre();
+    setX(state.x);
+  });
+  ScrollTrigger.addEventListener('refresh', () => {
+    measureCentre();
+    setX(state.x);
+  });
 
   // Dragging: grab the knob/line, or press anywhere on the hero background and
   // pull sideways. The split eases towards the pointer so it glides instead of jumping.
@@ -38,10 +64,13 @@ export function initHero(): { prepare: () => DOMRect; play: (fromLoader: boolean
   };
   const fromEvent = (e: PointerEvent) => {
     const r = hx.getBoundingClientRect();
-    return clamp(((e.clientX - r.left) / r.width) * 100, 0, 100);
+    return fromPos(clamp(((e.clientX - r.left) / r.width) * 100, 0, 100));
   };
+  let down = { x: 0, t: 0, el: null as HTMLElement | null };
   const begin = (e: PointerEvent, el: HTMLElement) => {
     dragging = true;
+    userMoved = true;
+    down = { x: e.clientX, t: performance.now(), el };
     pending = null;
     try {
       el.setPointerCapture(e.pointerId);
@@ -80,18 +109,35 @@ export function initHero(): { prepare: () => DOMRect; play: (fromLoader: boolean
     if (dy > 10 && dy > dx) pending = null; // a vertical swipe is a scroll
     else if (dx > 8) begin(e, pending.el);
   });
-  const end = () => {
+  // release: a tap on the handle toggles; a drag snaps to 0 / 50 / 100
+  const end = (e?: Event) => {
     pending = null;
     if (!dragging) return;
     dragging = false;
     hx.classList.remove('is-dragging');
+    gsap.killTweensOf(glide);
+    const pe = e as PointerEvent | undefined;
+    const moved = pe && 'clientX' in pe ? Math.abs(pe.clientX - down.x) : 99;
+    if (down.el === split && moved < 5 && performance.now() - down.t < 350) {
+      slideTo(state.x > 50 ? 0 : 100, 0.6);
+      return;
+    }
+    const target = [0, 50, 100].reduce((a, b) => (Math.abs(b - state.x) < Math.abs(a - state.x) ? b : a));
+    gsap.to(state, {
+      x: target,
+      duration: reducedMotion() ? 0 : 0.6,
+      ease: 'back.out(1.7)',
+      onUpdate: () => setX(state.x),
+      onComplete: () => void (glide.x = state.x),
+    });
   };
   on(hx, 'pointerup', end);
   on(hx, 'pointercancel', end);
   on(window, 'pointerup', end);
   on(window, 'blur', end);
   on(split, 'keydown', (e) => {
-    const step = e.shiftKey ? 10 : 4;
+    userMoved = true;
+    const step = 10;
     if (e.key === 'ArrowLeft') setX(state.x - step);
     else if (e.key === 'ArrowRight') setX(state.x + step);
     else if (e.key === 'Home') setX(0);
@@ -100,12 +146,41 @@ export function initHero(): { prepare: () => DOMRect; play: (fromLoader: boolean
     e.preventDefault();
     killHint();
   });
-  const slideTo = (v: number) => {
+  function slideTo(v: number, dur = 1.1) {
     killHint();
-    gsap.to(state, { x: v, duration: 1.1, ease: 'expo.inOut', onUpdate: () => setX(state.x) });
-  };
+    userMoved = true;
+    gsap.killTweensOf(state);
+    gsap.to(state, {
+      x: v,
+      duration: reducedMotion() ? 0 : dur,
+      ease: 'expo.inOut',
+      onUpdate: () => setX(state.x),
+      onComplete: () => void (glide.x = state.x),
+    });
+  }
   on(qs('.hx__tag--d', split)!, 'click', () => slideTo(state.x > 96 ? 50 : 100));
   on(qs('.hx__tag--c', split)!, 'click', () => slideTo(state.x < 4 ? 50 : 0));
+
+  // scroll (secondary): the first ~60vh of scrolling sweeps engineer → doctor, until the visitor takes over
+  ScrollTrigger.create({
+    trigger: hx,
+    start: 'top top',
+    end: () => `+=${Math.round(window.innerHeight * 0.6)}`,
+    onUpdate: (self) => {
+      if (userMoved || dragging) return;
+      setX(100 - self.progress * 100);
+      glide.x = state.x;
+    },
+  });
+
+  // idle hint: once, after the intro, the handle peeks 12% in and springs back
+  const nudge = () => {
+    if (reducedMotion() || userMoved || window.scrollY > 8) return;
+    gsap
+      .timeline({ onUpdate: () => setX(state.x), onComplete: () => void (glide.x = state.x) })
+      .to(state, { x: 88, duration: 0.45, ease: 'power2.out' })
+      .to(state, { x: 100, duration: 0.8, ease: 'back.out(1.7)' });
+  };
 
   /* ───────── layout: fit the name, place the photo card & blueprint notes ───────── */
   const canvas = document.createElement('canvas');
@@ -283,6 +358,7 @@ export function initHero(): { prepare: () => DOMRect; play: (fromLoader: boolean
     let k = 0;
     const next = () => {
       if (document.hidden || window.scrollY > hx.offsetHeight) return;
+      if (hx.dataset.both === '1') return; // the curtain is at 50%: "why not both?" stays up
       k = (k + 1) % heroCopy.bubbles.length;
       says.forEach((s) => s.classList.add('is-typing'));
       gsap.fromTo(says, { scale: 0.96 }, { scale: 1, duration: 0.4, ease: 'back.out(1.7)' });
@@ -302,6 +378,8 @@ export function initHero(): { prepare: () => DOMRect; play: (fromLoader: boolean
     layout();
     const me = qsa('.hx__me', hx);
     gsap.set(me, { xPercent: isMobile() ? 0 : -50 });
+    measureCentre();
+    setX(state.x);
     // build the intro now, paused, while the loader still covers the page,
     // so the reveal frame doesn't pay for style setup
     if (!reducedMotion()) {
@@ -320,7 +398,15 @@ export function initHero(): { prepare: () => DOMRect; play: (fromLoader: boolean
     if (reducedMotion()) {
       const all = qsa('.hx__ch, .hx__bar > *, .hx__left, .hx__right, .hx__me', hx);
       gsap.set([all, split, hint], { opacity: 1, y: 0 });
-      setX(62);
+      setX(100);
+  onResize(() => {
+    measureCentre();
+    setX(state.x);
+  });
+  ScrollTrigger.addEventListener('refresh', () => {
+    measureCentre();
+    setX(state.x);
+  });
       return;
     }
     build(fromLoader).play();
@@ -352,7 +438,7 @@ export function initHero(): { prepare: () => DOMRect; play: (fromLoader: boolean
       .add(() => say.forEach((s) => s.classList.remove('is-typing')), 1.9)
       .fromTo(say, { scale: 0.92 }, { scale: 1, duration: 0.5, ease: 'back.out(1.7)' }, 1.9)
       .to(split, { opacity: 1, duration: 0.4 }, 0.9)
-      .to(state, { x: 62, duration: 1.5, ease: 'expo.inOut', onUpdate: () => setX(state.x) }, 0.95)
+      .add(() => nudge(), 1.2) // the curtain stays on 'future engineer'; it only peeks once
       .add(runCursors, 2.4)
       .add(runBubble, 2.4);
 

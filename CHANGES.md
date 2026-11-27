@@ -169,3 +169,39 @@ All prices live in `P` (`starter` + `addons`). Offers, tiers, dates, referral te
 | `{{CONFIRM}}` | sample parent report (replace with yours), 7-day refund chip, Study Buddy/Squad terms |
 
 **Verified:** build passes; terminal commands run; none of the excluded items appear on the page; 360 / 768 / 1440 show no overflow (only the hero's intentional split handle); all CTA links are visible.
+
+---
+
+## 2026-11-27 · Prompt 3: "Two futures, one aspirant" (engineer ⟷ doctor hero)
+
+Scope: the hero figure, the background behind it, the callouts/chips/bubble around it, and the split handle. Nothing else changed.
+
+**How it works**
+- The existing DESIGN ⟷ code handle is now **JEE ⟷ NEET** (same pill + knob markup/styles). 100 = future engineer (default), 0 = future doctor. Slider 50 is mapped onto the **figure's centre** (the figure isn't at the hero's centre because of the "samarth x" wordmark), so at 50% the aspirant is split exactly down the middle at every width. 0–50 and 50–100 stretch over each side, and the knob stays under the pointer while dragging.
+- **Drag:** snaps to 0 / 50 / 100 with `back.out(1.7)`. **Tap** the knob: toggles with a 600 ms sweep. **Keyboard:** ← → move 10%, Home/End jump; `role="slider"`, `aria-valuenow`, `aria-valuetext`, label "Switch between future engineer and future doctor". **Scroll:** the first 60vh sweeps engineer → doctor (scrubbed), and stops the moment the visitor drags, taps or uses the keyboard. **Idle hint:** after the intro, the handle peeks 12% once and springs back; the hint label reads "drag → see the doctor".
+- **The curtain uses transforms, not clip-path.** Each side sits in a window that slides one way while its content slides back, so dragging never repaints the art. Measured drag frame rate, scripted drag A/B on this machine: old hero 21–25 fps → new 59–80 fps (first-ever reveal ~24 fps while the doctor art is painted the first time).
+- The old duplicate "code" copy of the hero (outlined heading, blueprint text) is no longer revealed (`.hx__layer--code { visibility: hidden }`; still in the DOM because the layout code measures it). The heading, tagline, copy, buttons, top bar, banner, clock, status dot and scroll cue look the same in every state.
+
+**Art** (`scripts/gen-aspirant.mjs` → `lib/art/*.svg`, 34 KB of inline SVG in total; no new libraries)
+- One shared base (skin, hair, bow, pose, phone, sneakers) plus two outfit layers, so the figures line up to the pixel (verified: 0 px difference at 50%).
+- **Engineer:** charcoal hoodie (hood collar, drawstrings, kangaroo pocket) with the SHOW UP daily. card + 42, sleeves pushed up, safety goggles on the head, pencil behind the ear, scale ruler in the back pocket, navy joggers, gear-doodle sneakers, circuit-pattern phone case.
+- **Doctor:** white coat over mint scrubs, stethoscope, ID lanyard "Dr. ___ (loading…)", pen-torch in the breast pocket with the SHOW UP card as a pocket badge (+ 42), red-cross phone case, an x-ray lightbox behind the shoulder.
+- **Backgrounds:**
+  - Engineer blueprint: 24 px grid, projectile parabola + vector, incline FBD, circuit trace off-edge, dimension lines "rank: TBD" and "Δ effort → Δ rank", and `F = ma`, `∮E·dA = Q/ε₀`, `PV = nRT`, `∫₀π sin x dx = 2`.
+  - Doctor clinic: mint tint + "+" pattern, cell diagram, glucose ring, `ATP`, `Krebs cycle`, `Ksp`, `NCERT pg. 128`.
+  - Animated pieces are their own transform-only layers: counter-rotating gears, a heart beating at 72 bpm, a twisting DNA helix. Each side's set pauses when that side is fully hidden or the hero is off-screen.
+- **Divider:** follows the handle; a circuit trace (engineer side) and an ECG line (doctor side) run top → bottom, with a spark at the knob and a 150 ms scan flash when the curtain crosses the figure's centre.
+- **Text around the figure** (`components/Futures.tsx`, copy in `futures` in `lib/content.ts`): x-ray callouts (frontal/occipital/cerebellum/phone/heart), 4 chips, the bottom label (blueprint ⟷ x-ray), the phone screen (cycles every 2.5 s, engineer vs NEET mock), and the caption chip "future engineer · JEE" ⟷ "future doctor · NEET" (crossfades at 50%). At 50% the bubble says "why not both? ask your mentor." All numbers are illustrative mock UI.
+- A guard hides any callout/chip that would overlap hero text at the current width. Visible at 1440: 17/21; at 360: 11/21; at 768 the columns leave little room, so only 3/21 show.
+- Desktop: background parallax (5–8 px) and a head tilt toward the cursor. Click/Enter on the figure: focus mode (headphones slide on). Pricing-CTA hover: thumbs-up. Dropped from the previous hero: the scroll "peel" of the stickers (scroll now drives the curtain) and the old sticker set (PYQ/NCERT/AIR/atom/…), which is replaced by the brief's callouts and chips.
+- `prefers-reduced-motion`: no parallax, peek or idle animation; the slider still works and moves instantly (verified).
+
+**Verified** (headless Chrome, production build, compared against the live pre-change site)
+- Hero text: position, size, colour, font and content of the heading, role, buttons, call line, lede, quip, file, status, clock, stamp and "built for" strip are **identical** at 1440 / 768 / 360. The only diff is the clock's minute.
+- Scroll 30vh → 50, 70vh → doctor; keyboard 10% steps + Home/End; drag released at 43% snaps to 50; tap toggles; no horizontal overflow at any width.
+- **Contrast:** body text stays 13:1+. The backgrounds were softened and fade to plain paper behind the top bar to protect contrast. The pink 40px "chase" stays above the 3:1 large-text threshold on both sides (worst case on a grid line/plus mark ~3.3 vs 3.65 before). The small grey "SamarthX /" breadcrumb was already below AA before (2.66) and remains so; it now sits on plain paper as before.
+- **Not run:** Lighthouse (not installed here). Run it from Chrome DevTools on `npm run build && npm start` to compare LCP/CLS. The hero has no images to load (inline SVG), so LCP should not regress.
+
+**Missing assets / owner options**
+- `/img/hero/aspirant-engineer.webp` and `/img/hero/aspirant-doctor.webp` were not supplied, so both figures are original layered SVG as the brief allows. To use photos or renders instead: identical canvas (289:695), identical pose/face/hair position, transparent background. Tell us and we'll swap the inline art for `<img>` (engineer `fetchpriority="high"`, doctor lazy).
+- Regenerate after editing the art: `npm run gen:aspirant && npm run gen:assets`.
