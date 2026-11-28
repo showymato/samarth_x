@@ -225,3 +225,34 @@ Scope: the hero figure, the background behind it, the callouts/chips/bubble arou
   - scroll 30vh → 50 and 70vh → doctor; keyboard, drag-snap and tap all work
   - no overflow
 - **Please confirm** you have the rights to use these two illustrations commercially (the file names suggest they may come from a stock or AI-image service).
+
+---
+
+## 2026-11-28 · Content transformation: "a mentor. a guide. a companion." (copy only)
+
+Text-only pass. No layout, CSS, motion, routes, prices, IDs, `data-*` hooks or terminal command names changed.
+
+**Files:** `lib/content.ts`, `lib/behaviors/terminal.ts` (responses only), `lib/behaviors/arcade.ts` (1 message), `components/Mocks.tsx` (2 chat lines), `components/Hero.tsx` (1 hidden layer label), `app/layout.tsx` (OG alt), `lib/seo.ts` (title/description), `scripts/gen-posters.mjs` + regenerated `public/img/wall/poster-{01,02,03,04,06,07,09,10,11}.svg` (same sizes), `scripts/gen-assets.mjs` (OG text, **not regenerated**: `public/og.png` still says "one rank to chase").
+
+**Messaging:** hero "one dream, one mentor, every step together." · bubble "you don't need more information. you need direction." · quip "less confusion. more clarity. someone by your side." · battlefield → "discover your path" · "Parents see everything" → "Parents stay informed. Students stay trusted." · marks framed as feedback · journey "release notes for your prep." · footer "let's figure it out / every step of the way." · terminal `sudo crack jee` now prints the preparation-status readout.
+
+**Renamed in copy (owner to confirm):** "Discipline Engine" → "Consistency Engine"; "7-day discipline challenge" → "7-day consistency challenge". Internal keys (`discipline` filter/command) unchanged.
+
+**Verified:** `next build` passes. Headless Chrome vs the live site at 1440 / 768 / 390: no horizontal overflow; every changed text block keeps its original line count except (a) the hero bubble (cycles, as before) and (b) at 768 the hero headline wraps to 3 lines (clean break via a non-breaking space in "one mentor"; grows upward into empty space). Poster text stays inside the 640px canvas.
+
+---
+
+## 2026-11-28 · Interactive #start previews + SamarthX One passes
+
+Scope: the `#start` three-card row and the three billing cards in `#pricing`. Headings, starter offers, trust chips, the "everything included" grid, FAQ and all other sections are unchanged. No new dependencies (React state, CSS transitions, native SVG).
+
+**Files:** new `components/StartCards.tsx`, `components/PlanCards.tsx`, `lib/hooks.ts`, `lib/predictor.ts`, `app/experiences.css`; edited `components/Pricing.tsx` (mounts them), `lib/content.ts` (copy + `scholarshipTiers[].min`, `scholarshipConfirmed`, plan `months`/copy, illustrative stages), `app/globals.css` (one import).
+
+**#start**
+- *Diagnostic:* JEE/NEET switch, selectable subject rows, "preview assessment" → analysing (ring, staggered rows, scan, animated bars and values) → mentor insight with word reveal; replay; subject changes update the insight. Sample data, labelled.
+- *Scholarship pass:* ticket with perforation and stub; score slider + band selector; animated % and score; light sweep on tier change. Uses `funnel.scholarshipTiers` only, labelled "illustrative · not an offer yet" while `scholarshipConfirmed` is false.
+- *Predictor:* JEE Main / NEET-UG switch (percentile ↔ marks), example-score slider, "explore" → signal along the path, nodes light in order, result panel. Uses the terminal's formula and `data/predictor/*.json` via `lib/predictor.ts`; with no official data it shows "awaiting official data" and no rank or college. Terminal (`#about`) and WhatsApp links kept.
+
+**SamarthX One:** view switch (total billed / per month / savings) with animated amounts; "you pay …" line always visible; effective monthly labelled "not billed monthly". Monthly: 30-day calendar (arrow keys, Home/End) with illustrative weekly stages. Quarterly: 3-month roadmap slider + savings bars. Annual: 12-month ring in 4 phases + savings bars. All amounts derived from `P`. IDs `#plan-*`, CTA links and `data-cursor="enroll"` kept.
+
+**Verified** (production build, headless Chrome at 1440 / 768 / 390 and 390 with reduced motion): every control driven by script (rapid replays, mid-run changes, keyboard on calendar and phases); no console errors; no overflow inside any panel; no horizontal scroll; equal card heights and aligned CTAs on desktop.

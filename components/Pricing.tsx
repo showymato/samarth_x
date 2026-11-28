@@ -1,8 +1,9 @@
-// Pricing + FAQ. Composed only from existing classes and tokens:
-// bench cards (with a receipts-style number in the visual), the skills grid,
-// chips and the project-card links. No new styles.
+// #start, pricing and FAQ. The two card rows (#start previews and the SamarthX One passes)
+// are client components; everything else here is static markup on existing classes.
 import { plans, faq, cta, brand, start } from '@/lib/content';
 import { SplitTitle, Arrow, ext } from './Work';
+import StartCards from './StartCards';
+import PlanCards from './PlanCards';
 
 export function Start() {
   return (
@@ -19,44 +20,7 @@ export function Start() {
         {start.lede}
       </p>
       <div className="wrap bench">
-        <div className="bench__grid">
-          {start.cards.map((c) => (
-            <article className="bench__card" id={c.id} key={c.id} style={{ ['--accent' as string]: c.accent }} data-reveal="">
-              <div className="bench__vis">
-                <div className="rc__n" style={{ position: 'relative' }}>
-                  <span className="rc__pre">{c.big.pre}</span>
-                  <span>{c.big.n}</span>
-                  <span className="rc__suf">{c.big.suf}</span>
-                </div>
-              </div>
-              <div className="bench__info">
-                <span className="bench__role">{c.role}</span>
-                <h3 className="bench__title">{c.title}</h3>
-                <p className="bench__blurb">{c.blurb}</p>
-                <ul className="bench__tags">
-                  {c.tags.map((t) => (
-                    <li className="chip" key={t}>
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-                <div className="pc__links">
-                  {c.links.map((l) => (
-                    <a
-                      key={l.label}
-                      className={'main' in l && l.main ? 'pc__link pc__link--main' : 'pc__link'}
-                      href={l.href}
-                      {...ext(l.href)}
-                      data-cursor="start"
-                    >
-                      {l.label} <Arrow />
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+        <StartCards />
       </div>
     </section>
   );
@@ -79,34 +43,10 @@ export function Pricing() {
 
       <div className="wrap bench">
         <div className="bench__head">
-          <h3 className="eyebrow">billing cycle</h3>
+          <h3 className="eyebrow">{plans.motto}</h3>
           <p>{plans.parents}</p>
         </div>
-        <div className="bench__grid">
-          {plans.cycles.map((c) => (
-            <article className="bench__card" id={`plan-${c.id}`} key={c.id} style={{ ['--accent' as string]: c.accent }} data-reveal="">
-              <div className="bench__vis">
-                <div className="rc__n" style={{ position: 'relative' }}>
-                  <span className="rc__pre">₹</span>
-                  <span>{c.price.toLocaleString('en-IN')}</span>
-                  <span className="rc__suf">{c.per}</span>
-                </div>
-              </div>
-              <div className="bench__info">
-                <span className="bench__role">
-                  {c.cycle} · {c.badge}
-                </span>
-                <h3 className="bench__title">{c.line}</h3>
-                <p className="bench__blurb">{c.sub}. Every feature below, nothing held back.</p>
-                <div className="pc__links">
-                  <a className="pc__link pc__link--main" href={c.href} {...ext(c.href)} data-cursor="enroll">
-                    {c.cta} <Arrow />
-                  </a>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+        <PlanCards />
         <div className="more" id="starter">
           <div className="receipts__head">
             <h3 className="eyebrow">{plans.starterTitle}</h3>
