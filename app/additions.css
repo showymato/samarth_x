@@ -88,37 +88,8 @@
   .hx__layer--code .xr__lab, .hx__layer--code .xr__tag { display: none; }
 }
 
-/* ---------- loading screen (halftone DPI) ---------- */
-.ld { display: none; }
-.js .ld { display: block; position: fixed; inset: 0; z-index: 600; background: var(--paper); transition: background .35s; }
-.ld.is-ink { background: #1e1420; }
-.ld__cv { position: absolute; inset: 0; width: 100%; height: 100%; }
-.ld__bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 0 var(--gutter);
-  background: var(--yellow);
-  font: 400 12.5px/1 var(--mono);
-  color: var(--ink);
-  transition: transform .6s var(--ease-out);
-}
-.ld.is-ink .ld__bar { transform: translateY(100%); }
-.ld__dpi { padding: 9px 13px; border-radius: 8px; background: var(--ink); color: #fff; font-weight: 500; letter-spacing: .04em; white-space: nowrap; }
-.ld__dpi b { color: var(--lime); font-weight: 500; font-variant-numeric: tabular-nums; }
-.ld__msg { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.ld__count { margin-left: auto; white-space: nowrap; }
-.ld__count b { font-weight: 500; }
+/* ---------- loading screen: see app/loader.css ---------- */
 html.is-loading, html.is-loading body { overflow: hidden; }
-@media (max-width: 760px) {
-  .ld__bar { height: 54px; gap: 10px; padding: 0 12px; font-size: 11px; }
-  .ld__count { display: none; }
-}
 
 /* chat bubble typing dots */
 .hx__typing { display: none; }
@@ -572,7 +543,7 @@ html.lenis.lenis-smooth { scroll-behavior: auto !important; }
 }
 
 /* hero bottom strip keeps the original yellow (and the loader bar that turns into it) */
-.hx__layer--design .worked, .ld__bar { background: #ffe45c; }
+.hx__layer--design .worked { background: #ffe45c; }
 
 /* ---------- hero: "two futures, one aspirant" (engineer ⟷ doctor curtain) ----------
    The curtain is pure transforms: each side sits in a window that slides one way while its

@@ -65,9 +65,9 @@ export function initSite() {
     ScrollTrigger.refresh();
     const h = hero as ReturnType<typeof initHero>;
     if (!h) return;
-    const rect = h.prepare();
-    // halftone loading screen, then the hero intro plays as it fades away
-    runLoader(rect, () => ctx.add(() => h.play(true)));
+    h.prepare();
+    // opening sequence; it hands the wordmark to the hero and the intro plays as the page opens
+    runLoader(() => ctx.add(() => h.play(true)));
   });
 
   return () => {

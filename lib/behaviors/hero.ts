@@ -423,16 +423,20 @@ export function initHero(): { prepare: () => DOMRect; play: (fromLoader: boolean
     const tl = gsap.timeline({ paused: true, delay: fromLoader ? 0 : 0.15 });
     if (fromLoader) gsap.set(me, { opacity: 1 });
     else tl.fromTo(me, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 1.2, ease: 'expo.out' }, 0.2);
-    // letters tip forward into place, like the original
     // start at 0.001 (not 0) so the browser rasterises these behind the loader, not on the reveal frame
     const o0 = fromLoader ? 0.001 : 0;
-    tl.fromTo(bar, { y: -18, opacity: o0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'expo.out', stagger: 0.06 }, 0)
-      .fromTo(
+    tl.fromTo(bar, { y: -18, opacity: o0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'expo.out', stagger: 0.06 }, 0);
+    // from the loader, the wordmark is handed over already in place (lib/behaviors/loader.ts builds an
+    // exact copy on top of it), so it just appears underneath; otherwise the letters tip forward into place
+    if (fromLoader) tl.set(chars, { opacity: 1 }, 0);
+    else
+      tl.fromTo(
         chars,
-        { opacity: o0, yPercent: 40, rotationX: -95, rotationY: -12, z: -60, transformOrigin: '50% 100%' },
+        { opacity: 0, yPercent: 40, rotationX: -95, rotationY: -12, z: -60, transformOrigin: '50% 100%' },
         { opacity: 1, yPercent: 0, rotationX: 0, rotationY: 0, z: 0, duration: 1.3, ease: 'expo.out', stagger: 0.045 },
         0.05,
-      )
+      );
+    tl
       .fromTo(sides, { y: 30, opacity: o0 }, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', stagger: 0.08 }, 0.45)
       .add(() => say.forEach((s) => s.classList.add('is-typing')), 0.7)
       .fromTo(say, { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(1.7)' }, 0.7)

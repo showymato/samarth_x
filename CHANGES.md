@@ -256,3 +256,17 @@ Scope: the `#start` three-card row and the three billing cards in `#pricing`. He
 **SamarthX One:** view switch (total billed / per month / savings) with animated amounts; "you pay …" line always visible; effective monthly labelled "not billed monthly". Monthly: 30-day calendar (arrow keys, Home/End) with illustrative weekly stages. Quarterly: 3-month roadmap slider + savings bars. Annual: 12-month ring in 4 phases + savings bars. All amounts derived from `P`. IDs `#plan-*`, CTA links and `data-cursor="enroll"` kept.
 
 **Verified** (production build, headless Chrome at 1440 / 768 / 390 and 390 with reduced motion): every control driven by script (rapid replays, mid-run changes, keyboard on calendar and phases); no console errors; no overflow inside any panel; no horizontal scroll; equal card heights and aligned CTAs on desktop.
+
+---
+
+## 2026-11-28 · Opening sequence: "find your way"
+
+Replaces the halftone DPI loader. Scope: the loader and its handoff into the hero; nothing else on the page changes.
+
+**Concept:** a pink line (the student's path) wanders in and loops back on itself; a steady ink line (the mentor's path) sweeps in to meet it. They cross, and the crossing becomes the x: the tails retract into two diagonals that gain the glyph's weight and land on the real "x", which takes over in pink. "samarth" rises letter by letter through masks at the hero wordmark's exact position, then "a mentor. a guide. a companion." The x turns ink and the page opens as an iris from it; the hero wordmark underneath is pixel-identical, so the swap is invisible, and the rest of the hero intro plays as it opens. On narrow screens the composition plays larger and centred, then the wordmark glides home before the iris (a shared-element move).
+
+**Behaviour:** waits for real readiness (fonts + the hero image), not a fixed delay. Full form ~3 s from first paint of the sequence; repeat loads in a session get a ~1 s short form. If the image is still loading: a calm waiting state (status line, a pink sweep under the tagline), "enter now" after 3.2 s, page opens regardless after 8 s. Escape skips at any time. A viewport-width change mid-sequence opens the page immediately. CSS failsafe removes the cover after 14 s if the script never runs. Reduced motion: no loader.
+
+**Files:** `components/Loader.tsx`, `lib/behaviors/loader.ts` (rewritten), new `app/loader.css`; `lib/behaviors/hero.ts` (from the loader, the wordmark is handed over in place instead of tipping in), `lib/behaviors/index.ts` (call signature), `app/additions.css` (old loader styles removed), `app/globals.css` (import), `lib/content.ts` (`loader` copy).
+
+**Verified** (production build, headless Chrome, frames stepped with virtual time at 1440 / 768 / 390): wordmark handoff lands on the hero's pixels; full and short forms; delayed hero image → waiting state → "enter now" → opens when ready; blocked image → opens normally; Escape mid-intro; reduced motion; no console errors; all #start / pricing interactions unchanged afterwards.

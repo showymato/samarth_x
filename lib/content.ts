@@ -211,23 +211,13 @@ export const futures = {
   idLanyard: 'Dr. ___ (loading…)',
 };
 
-// halftone loading screen: DPI steps and what it says at each one
+// opening sequence ("find your way"): two paths cross, the crossing becomes the x.
+// Shown in full once per session; later loads in the session get the short form.
 export const loader = {
-  steps: [
-    [6, 'low-res aspirant. loading clarity.'],
-    [9, 'low-res aspirant. loading clarity.'],
-    [12, 'low-res aspirant. loading clarity.'],
-    [18, 'low-res aspirant. loading clarity.'],
-    [28, 'adding dots. lots of DPPs.'],
-    [44, 'adding dots. lots of DPPs.'],
-    [72, 'that’s a student. probably.'],
-    [110, 'that’s a student. probably.'],
-    [150, 'sharpening. so many formulas.'],
-    [200, 'sharpening. so many formulas.'],
-    [240, 'aligning the inks.'],
-    [300, 'ready when you are.'],
-  ] as [number, string][],
-  counterLabel: 'posters',
+  line: 'find your way',
+  tagline: ['a mentor.', 'a guide.', 'a companion.'],
+  status: { loading: 'preparing the page', waiting: 'still loading, nearly there', ready: 'ready' },
+  enter: 'enter now',
 };
 
 // split-flap board in the yellow strip ("built for"). Names: max 14 characters.
