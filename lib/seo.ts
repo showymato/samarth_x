@@ -7,8 +7,8 @@ export const siteUrl = !brand.domain.startsWith('{{')
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}/`
     : 'http://localhost:3000/';
 
-const title = `${brand.name} · JEE, NEET & Olympiad mentorship app with parent tracking`;
-const description = `A personal mentor, complete study material, tests with real analytics and a parent dashboard, in one app for JEE, NEET and Olympiad aspirants. From ₹${pricing.monthly.toLocaleString('en-IN')}/month.`;
+const title = `${brand.name} · JEE, NEET & Olympiad mentorship, with parents in the loop`;
+const description = `Personal mentorship, structured preparation and someone to guide you through your JEE, NEET and Olympiad journey, with parents kept in the loop. From ₹${pricing.monthly.toLocaleString('en-IN')}/month.`;
 
 export const seo = { title, description };
 

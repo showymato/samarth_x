@@ -15,7 +15,7 @@
 
 <text x="40" y="110" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-2.25" font-size="50" fill="#1e1420">Mock tests</text>
 <text x="40" y="161" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-2.25" font-size="50" fill="#1e1420">don’t judge you.</text>
-<text x="40" y="212" font-family="Georgia, 'Times New Roman', serif"  font-style="italic"  font-size="54" fill="#8b5cf6">They warn you.</text>
+<text x="40" y="212" font-family="Georgia, 'Times New Roman', serif"  font-style="italic"  font-size="54" fill="#8b5cf6">They guide you.</text>
 <rect class="blink" x="40" y="230" width="25" height="6" fill="#8b5cf6"/>
 
 <text x="40" y="378" font-family="Consolas, Menlo, monospace" font-size="15" letter-spacing="3" fill="#1e1420" fill-opacity=".6">THE WALL · POSTER 09 · 2026</text>

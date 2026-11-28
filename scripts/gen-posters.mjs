@@ -79,21 +79,21 @@ const ring = (cx, cy, r, col, op = 1) => `<circle class="pulse" cx="${cx}" cy="$
 const posters = [
   {
     file: 'poster-01.svg', w: 640, h: 905, bg: C.ink, fg: '#fff', accent: C.butter, size: 90, top: 230, n: '01',
-    lines: [['Motivation', 'sans'], ['gets you to', 'sans'], ['the desk.', 'sans'], ['Discipline', 'sans', C.butter], ['keeps you', 'sans', C.butter], ['there.', 'serif', C.baby]],
+    lines: [['Motivation', 'sans'], ['gets you to', 'sans'], ['the desk.', 'sans'], ['Small habits', 'sans', C.butter], ['keep you', 'sans', C.butter], ['there.', 'serif', C.baby]],
     extra: ring(520, 110, 70, C.lav, 0.55),
   },
   {
     file: 'poster-02.svg', w: 640, h: 640, bg: C.lav, fg: '#fff', accent: C.butter, size: 64, top: 150, n: '02',
-    lines: [['The syllabus', 'sans'], ['is finite.', 'sans'], ['Your excuses', 'sans', C.butter], ['aren’t.', 'serif', C.baby]],
+    lines: [['The syllabus', 'sans'], ['is finite.', 'sans'], ['You’ll get', 'sans', C.butter], ['through it.', 'serif', C.baby]],
   },
   {
     file: 'poster-03.svg', w: 640, h: 960, bg: C.butter, fg: C.ink, accent: C.pink, size: 72, top: 240, n: '03',
-    lines: [['Nobody cracks', 'sans'], ['JEE in a day.', 'sans'], ['Everyone', 'sans', C.lav], ['who cracked it', 'sans', C.lav], ['showed up', 'sans', C.lav], ['every day.', 'serif', C.pink]],
+    lines: [['Nobody gets', 'sans'], ['ready in', 'sans'], ['a day.', 'sans'], ['Everyone', 'sans', C.lav], ['who did,', 'sans', C.lav], ['did it', 'sans', C.lav], ['day by day.', 'serif', C.pink]],
     extra: `<g class="drift">${Array.from({ length: 14 }, (_, i) => `<rect x="${40 + i * 44}" y="80" width="34" height="34" rx="8" fill="${i < 11 ? C.green : C.ink}" fill-opacity="${i < 11 ? 0.85 : 0.12}"/>`).join('')}</g>`,
   },
   {
     file: 'poster-04.svg', w: 640, h: 640, bg: C.paper, fg: C.ink, accent: C.lav, size: 62, top: 150, n: '04',
-    lines: [['Your rank is', 'sans'], ['a lagging', 'sans'], ['indicator of', 'sans'], ['your habits.', 'serif', C.lav]],
+    lines: [['Progress is', 'sans'], ['a lagging', 'sans'], ['indicator of', 'sans'], ['your habits.', 'serif', C.lav]],
     extra: `<polyline points="380,560 430,520 470,540 520,470 560,490 600,420" fill="none" stroke="${C.pink}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity=".35"/>`,
   },
   {
@@ -103,11 +103,11 @@ const posters = [
   },
   {
     file: 'poster-06.svg', w: 640, h: 640, bg: C.green, fg: '#fff', accent: C.butter, size: 60, top: 150, n: '06',
-    lines: [['Clear the', 'sans'], ['doubt today,', 'sans'], ['not in the', 'sans', C.butter], ['exam hall.', 'serif', C.butter]],
+    lines: [['Ask the', 'sans'], ['doubt today,', 'sans'], ['not in the', 'sans', C.butter], ['exam hall.', 'serif', C.butter]],
   },
   {
     file: 'poster-07.svg', w: 640, h: 960, bg: C.blush, fg: C.ink, accent: C.pink, size: 78, top: 250, n: '07',
-    lines: [['Toppers', 'sans'], ['aren’t made', 'sans'], ['on result day.', 'sans'], ['They’re made', 'sans', C.pink], ['on boring', 'sans', C.pink], ['Tuesdays.', 'serif', C.lav]],
+    lines: [['Progress', 'sans'], ['isn’t made', 'sans'], ['on result day.', 'sans'], ['It’s made', 'sans', C.pink], ['on boring', 'sans', C.pink], ['Tuesdays.', 'serif', C.lav]],
     extra: `<text x="40" y="110" font-family="${MONO}" font-size="20" letter-spacing="4" fill="${C.ink}" fill-opacity=".5">MON  <tspan fill="${C.pink}" fill-opacity="1">TUE</tspan>  WED  THU  FRI</text>`,
   },
   {
@@ -117,15 +117,15 @@ const posters = [
   },
   {
     file: 'poster-09.svg', w: 640, h: 410, bg: C.butter, fg: C.ink, accent: C.lav, size: 50, top: 110, n: '09',
-    lines: [['Mock tests', 'sans'], ['don’t judge you.', 'sans'], ['They warn you.', 'serif', C.lav]],
+    lines: [['Mock tests', 'sans'], ['don’t judge you.', 'sans'], ['They guide you.', 'serif', C.lav]],
   },
   {
     file: 'poster-10.svg', w: 640, h: 640, bg: C.lav, fg: '#fff', accent: C.baby, size: 56, top: 150, n: '10',
-    lines: [['Consistency', 'sans', C.butter], ['is a superpower', 'sans'], ['nobody wants', 'sans'], ['to train.', 'serif', C.baby]],
+    lines: [['Consistency', 'sans', C.butter], ['is a superpower', 'sans'], ['you build', 'sans'], ['quietly.', 'serif', C.baby]],
   },
   {
-    file: 'poster-11.svg', w: 640, h: 640, bg: C.orange, fg: '#fff', accent: C.ink, size: 56, top: 140, n: '11', by: 'Swami Vivekananda',
-    lines: [['Arise,', 'sans'], ['awake, and', 'sans'], ['stop not till', 'sans', C.ink], ['the goal is reached.', 'serif', C.butter]],
+    file: 'poster-11.svg', w: 640, h: 640, bg: C.orange, fg: '#fff', accent: C.ink, size: 56, top: 140, n: '11',
+    lines: [['Rest is part', 'sans'], ['of the plan.', 'sans'], ['Not a break', 'sans', C.ink], ['from it.', 'serif', C.butter]],
   },
   {
     file: 'poster-12.svg', w: 640, h: 905, bg: C.paper, fg: C.ink, accent: C.pink, size: 66, top: 240, n: '12', by: 'Will Durant',

@@ -13,7 +13,7 @@
 <defs><pattern id="dt" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1" fill="#000" fill-opacity=".07"/></pattern></defs>
 <rect width="640" height="640" fill="#12a150"/>
 
-<text x="40" y="150" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-2.6999999999999997" font-size="60" fill="#fff">Clear the</text>
+<text x="40" y="150" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-2.6999999999999997" font-size="60" fill="#fff">Ask the</text>
 <text x="40" y="211.2" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-2.6999999999999997" font-size="60" fill="#fff">doubt today,</text>
 <text x="40" y="272.4" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-2.6999999999999997" font-size="60" fill="#ffe45c">not in the</text>
 <text x="40" y="333.6" font-family="Georgia, 'Times New Roman', serif"  font-style="italic"  font-size="64.80000000000001" fill="#ffe45c">exam hall.</text>

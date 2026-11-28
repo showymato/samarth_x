@@ -13,7 +13,7 @@ export function MockMentor() {
             <span className="sl-av sl-av--a">M</span>
             <div>
               <b>Your mentor</b>
-              <p>how did sunday’s mock go? be honest.</p>
+              <p>how did sunday’s mock go? no judgement.</p>
             </div>
           </div>
           <div className="sl-msg sl-msg--me">
@@ -22,7 +22,7 @@ export function MockMentor() {
               <b>You</b>
               <p className="sl-out">
                 <span className="sl-raw">umm physics was ok but i left organic for “later” and later never came</span>
-                <span className="sl-clean">214/300. Organic is the leak. 1:1 at 7 pm, plan updated.</span>
+                <span className="sl-clean">214/300. Organic needs work. 1:1 at 7 pm, plan updated.</span>
                 <span className="caret" />
               </p>
             </div>

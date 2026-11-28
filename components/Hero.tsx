@@ -513,7 +513,7 @@ function HeroLayer({ code }: { code?: boolean }) {
                 <li style={{ paddingLeft: 26 }}><i>▾</i>figure.me</li>
                 <li style={{ paddingLeft: 40 }}><i>▣</i>img · aspirant (selfie)</li>
                 <li style={{ paddingLeft: 40 }}><i>✚</i>x-ray · 206 bones</li>
-                <li style={{ paddingLeft: 40 }}><i>◯</i>bubble · excuses</li>
+                <li style={{ paddingLeft: 40 }}><i>◯</i>bubble · inner voice</li>
                 <li className="is-sel" style={{ paddingLeft: 26 }}><i>▭</i>gap · 2px → 0px</li>
               </ul>
             </div>

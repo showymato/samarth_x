@@ -14,12 +14,12 @@ const HELP = `available commands:
   <b>olympiad</b>    IOQM, INMO, NSEP, INPhO…
   <b>addons</b>      extras, for when you want more
   <b>parent</b>      what parents see
-  <b>discipline</b>  the discipline engine
+  <b>discipline</b>  the consistency engine
   <b>quote</b>       one for the wall
   <b>diagnostic</b>  the free diagnostic test
   <b>scholarship</b> up to 50% off the core plan
   <b>trial</b>       the full plan for ₹1, 7 days
-  <b>challenge</b>   the 7-day discipline challenge
+  <b>challenge</b>   the 7-day consistency challenge
   <b>predict jee</b> &lt;percentile&gt;   e.g. predict jee 97.4
   <b>predict neet</b> &lt;marks&gt;       e.g. predict neet 610
   <b>faq</b>         the honest answers
@@ -112,8 +112,8 @@ type <b>plans</b> for the price. same plan for every exam.`;
 
 const COMMANDS: Record<string, Out> = {
   help: HELP,
-  whoami: `<b>aspirant</b>. future topper, part-time procrastinator (recovering).
-current streak: 42 days. current weakness: organic. current plan: fix it.`,
+  whoami: `<b>aspirant</b>. curious mind, part-time procrastinator (recovering).
+current streak: 42 days. current weak spot: organic. current plan: one chapter at a time.`,
   plans: () =>
     [
       `<b>${esc(person.name)} One</b> · one plan, JEE / NEET / Olympiad. no hidden “premium” tier.`,
@@ -136,15 +136,15 @@ current streak: 42 days. current weakness: organic. current plan: fix it.`,
   attendance · study hours · test trend · chapter strength · mentor remarks
   + a monthly report, instant alerts on missed tests or broken streaks,
   + a quarterly video PTM with the mentor.
-no more “haan padh raha hoon”.`,
-  discipline: `<b>the discipline engine</b>
+fewer worried guesses. more real conversations.`,
+  discipline: `<b>the consistency engine</b>
   ✓ daily targets set by your mentor
-  ✓ streaks + accountability check-ins
+  ✓ streaks + supportive check-ins
   ✓ focus timer with distraction blocking
   ✓ weekly review: planned vs done
   ✓ missed-target alerts to mentor and parent
   ✓ a monthly habit score in the parent report
-motivation gets you to the desk. this keeps you there.`,
+motivation gets you to the desk. small habits keep you there.`,
   quote: () => {
     let k = Math.floor(Math.random() * quotes.length);
     if (k === lastQuote) k = (k + 1) % quotes.length;
@@ -159,9 +159,9 @@ ${link(lead('scholarship', { from: 'terminal' }), 'register, it’s free →')}`
   trial: `<b>${inr(pricing.starter.trial)} trial</b>: the full core plan for 7 days, one real 1:1 mentor session included.
 ${esc(funnel.trialTerms)}
 ${link(lead('trial', { from: 'terminal' }), 'start the ₹1 trial →')}`,
-  challenge: `<b>the 7-day discipline challenge</b>: free.
-  a daily target from a mentor, a check-in every night, a streak you don’t want to break.
-  finish all 7 days and you’ve proved the only thing that matters: you can show up.
+  challenge: `<b>the 7-day consistency challenge</b>: free.
+  a daily target from a mentor, a check-in every night, a small streak to build.
+  miss a day? pick it up again. by day 7 you’ll know it: you can show up.
 ${link(lead('challenge', { from: 'terminal' }), 'join the challenge →')}`,
   faq: () =>
     faq.items
@@ -177,8 +177,8 @@ ${link(lead('challenge', { from: 'terminal' }), 'join the challenge →')}`,
   socials: `  <b>instagram</b>  <a href="${person.instagram}" target="_blank" rel="noopener">${esc(person.instagram)}</a>
   <b>youtube</b>    <a href="${person.youtube}" target="_blank" rel="noopener">${esc(person.youtube)}</a>
   <b>linkedin</b>   <a href="${person.linkedin}" target="_blank" rel="noopener">${esc(person.linkedin)}</a>`,
-  'git status': `on branch <b>feat/crack-it</b>
-your branch is ahead of 'origin/excuses' by 42 days.
+  'git status': `on branch <b>feat/next-chapter</b>
+your branch is ahead of 'origin/kal-se-pakka' by 42 days.
 
 changes to be committed:
   <span class="ok">new file:   dpp-14.md</span>
@@ -186,14 +186,14 @@ changes to be committed:
 
 untracked files:
   <span class="err">organic-chemistry/</span>`,
-  'git log': `<b>a4b6954</b> sunday mock: up 18 <span class="dim">(HEAD -> feat/crack-it)</span>
+  'git log': `<b>a4b6954</b> sunday mock: up 18 <span class="dim">(HEAD -> feat/next-chapter)</span>
 <b>9cb2e51</b> 42-day streak
 <b>3aea5ec</b> first parent report
 <b>7345bf8</b> mentor match & plan
 <b>d9a4652</b> day 0: diagnostic test`,
   chai: () => {
     chai += 1;
-    return chai > 3 ? `☕ that’s cup #${chai}. focus +40%. sleep −${chai}h. your mentor has been notified.` : '☕ refuelled. focus +40%.';
+    return chai > 3 ? `☕ that’s cup #${chai}. focus +40%. sleep −${chai}h. your mentor suggests water.` : '☕ refuelled. focus +40%.';
   },
   coffee: 'this is a chai-only zone. try <b>chai</b>.',
   ls: 'physics/  chemistry/  maths/  biology/  dpp/  pyq/  error-log.md  timetable.pdf  secrets.txt',
@@ -203,15 +203,19 @@ untracked files:
   date: () => new Date().toLocaleString('en-IN', { timeZone: person.timezone }),
   hello: 'hi! type <b>help</b> if you’re lost.',
   hi: 'hello! type <b>help</b> if you’re lost.',
-  sudo: 'nice try. you’re not in the sudoers file. this incident will be reported (to your parents, via the app).',
+  sudo: 'nice try. you’re not in the sudoers file. this incident will be reported. (kidding. nice try though.)',
   'rm -rf /': '<span class="err">permission denied.</span> also, the syllabus can’t be deleted.',
-  'rm -rf syllabus': '<span class="err">permission denied.</span> the syllabus is finite. your excuses aren’t.',
+  'rm -rf syllabus': '<span class="err">permission denied.</span> the syllabus is finite. you’ll get through it.',
   exit: 'you can check out any time you like, but the mock is still on sunday.',
   vim: 'you are now stuck in vim. like organic. <b>:q</b>',
   ':q': 'see? easy. now do the same with reels.',
   reels: '<span class="err">blocked.</span> focus mode said no. nice try.',
   'sudo crack jee': `[sudo] password for aspirant: ********
-<span class="ok">permission granted.</span> condition: show up daily.`,
+checking preparation status...
+  direction: <span class="ok">clearer</span>
+  progress:  <span class="ok">in motion</span>
+  mentor:    <span class="ok">by your side</span>
+<span class="ok">permission granted.</span> condition: one step at a time.`,
 };
 plans.cycles.forEach((c) => {
   COMMANDS[`enroll --plan ${c.id}`] = () => {
@@ -223,7 +227,7 @@ plans.cycles.forEach((c) => {
 COMMANDS['crack jee'] = 'permission denied. try <b>sudo crack jee</b>.';
 COMMANDS['sudo crack neet'] = COMMANDS['sudo crack jee'];
 COMMANDS['enroll'] = 'usage: <b>enroll --plan annual</b> (or monthly, quarterly). see <b>plans</b>.';
-COMMANDS['npm install rank@latest'] = 'added <b>1 personal mentor, 52 tests a year, 1 parent dashboard</b> in 2y 0m. found <span class="ok">0</span> excuses.';
+COMMANDS['npm install rank@latest'] = 'added <b>1 personal mentor, 52 tests a year, 1 parent dashboard</b> in 2y 0m. found <span class="ok">0</span> reasons to do it alone.';
 COMMANDS['about'] = () => about.neofetch.map(([k, v]) => `  <b>${k.padEnd(9)}</b>${esc(v)}`).join('\n');
 
 export function initTerminal() {

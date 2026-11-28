@@ -13,12 +13,12 @@
 <defs><pattern id="dt" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1" fill="#000" fill-opacity=".07"/></pattern></defs>
 <rect width="640" height="640" fill="#ff6b1a"/>
 
-<text x="40" y="140" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-2.52" font-size="56" fill="#fff">Arise,</text>
-<text x="40" y="197.12" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-2.52" font-size="56" fill="#fff">awake, and</text>
-<text x="40" y="254.24" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-2.52" font-size="56" fill="#1e1420">stop not till</text>
-<text x="40" y="311.36" font-family="Georgia, 'Times New Roman', serif"  font-style="italic"  font-size="60.480000000000004" fill="#ffe45c">the goal is reached.</text>
+<text x="40" y="140" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-2.52" font-size="56" fill="#fff">Rest is part</text>
+<text x="40" y="197.12" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-2.52" font-size="56" fill="#fff">of the plan.</text>
+<text x="40" y="254.24" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900"  letter-spacing="-2.52" font-size="56" fill="#1e1420">Not a break</text>
+<text x="40" y="311.36" font-family="Georgia, 'Times New Roman', serif"  font-style="italic"  font-size="60.480000000000004" fill="#ffe45c">from it.</text>
 <rect class="blink" x="40" y="329.36" width="28" height="6" fill="#1e1420"/>
-<text x="40" y="570" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="30" fill="#1e1420">— Swami Vivekananda</text>
+
 <text x="40" y="608" font-family="Consolas, Menlo, monospace" font-size="15" letter-spacing="3" fill="#fff" fill-opacity=".6">THE WALL · POSTER 11 · 2026</text>
 <path class="spin" fill="#1e1420" d="M582 584L585.52 596.48L598 600L585.52 603.52L582 616L578.48 603.52L566 600L578.48 596.48Z"/>
 <rect width="640" height="640" fill="url(#dt)" pointer-events="none"/>

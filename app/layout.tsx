@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     siteName: brand.name,
     title: seo.title,
     description: seo.description,
-    images: [{ url: '/og.png', width: 1200, height: 630, alt: `${brand.name}: one app, one mentor, one rank to chase.` }],
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: `${brand.name}: one dream, one mentor, every step together.` }],
   },
   twitter: {
     card: 'summary_large_image',

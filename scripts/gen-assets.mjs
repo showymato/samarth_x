@@ -134,8 +134,8 @@ const og = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" vi
     <text x="44" y="29" font-family="${MONO}" font-size="20" fill="${C.ink}">admissions open</text>
   </g>
   <text x="66" y="290" font-family="${SANS}" font-weight="900" font-size="80" fill="${C.ink}" letter-spacing="-4">SamarthX</text>
-  <text x="70" y="370" font-family="${SANS}" font-size="44" fill="${C.ink}" letter-spacing="-1.5">one app, one mentor, one rank to</text>
-  <text x="70" y="432" font-family="${SERIF}" font-style="italic" font-size="58" fill="${C.lav}">chase.</text>
+  <text x="70" y="370" font-family="${SANS}" font-size="44" fill="${C.ink}" letter-spacing="-1.5">one dream, one mentor, every step</text>
+  <text x="70" y="432" font-family="${SERIF}" font-style="italic" font-size="58" fill="${C.lav}">together.</text>
   <text x="70" y="500" font-family="${MONO}" font-size="24" fill="#55534e">from ₹3,999/mo · free diagnostic test</text>
   <g transform="translate(905 20) scale(.84)">${fig}</g>
 </svg>`;

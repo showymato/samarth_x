@@ -83,7 +83,7 @@ function whackABug(card: HTMLElement) {
     card.classList.remove('is-live');
     btn.textContent = 'again';
     const better = sb.finish(score);
-    hint(card, score === 0 ? 'zero squashed. the reels won this round.' : `${score} distractions squashed.${better ? ' new best!' : ''} back to work.`);
+    hint(card, score === 0 ? 'zero squashed. the reels won this round.' : `${score} distractions squashed.${better ? ' new best!' : ''} back to the desk.`);
   };
   on(btn, 'click', () => {
     if (running) return;
